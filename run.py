@@ -36,7 +36,7 @@ def send_daily_message(group_id,name):
 
 scheduler = BackgroundScheduler()
 # 1337 group to spam yee
-scheduler.add_job(send_daily_message, 'cron', hour=3, minute=0, second=0, timezone=timezone('Asia/Taipei'), args=["Ca910ecfb8c7289e2c5fc51d58189d01c", "U58844313499a9cd4ddc80d79e3160537"])
+scheduler.add_job(send_daily_message, 'cron', hour=7, minute=5, second=0, timezone=timezone('Asia/Taipei'), args=["Ca910ecfb8c7289e2c5fc51d58189d01c", "張子儀"])
 scheduler.start()
 
 
