@@ -28,18 +28,16 @@ configuration = Configuration(
 handler = WebhookHandler(os.getenv('CHANNEL_SECRET', None))
 
 
-def send_daily_message(group_id,user_id):
+def send_daily_message(group_id, user_id):
     with ApiClient(configuration) as api_client:
         line_bot_api = MessagingApi(api_client)
-        # Replace 'YOUR_GROUP_ID' with the actual ID of your group
-        # Replace 'USER_ID' with the actual ID of the user you want to mention
         line_bot_api.push_message(group_id, TextMessage(text=f"<@{user_id}> 三點了 ！！ 起來重睡 ！！"))
-
 
 scheduler = BackgroundScheduler()
 # 1337 group to spam yee
-scheduler.add_job(send_daily_message(group_id="Ca910ecfb8c7289e2c5fc51d58189d01c",user_id="U58844313499a9cd4ddc80d79e3160537"), 'cron', hour=3, minute=0, second=0, timezone=timezone('Asia/Taipei'))
+scheduler.add_job(send_daily_message, 'cron', hour=3, minute=0, second=0, timezone=timezone('Asia/Taipei'), args=["Ca910ecfb8c7289e2c5fc51d58189d01c", "U58844313499a9cd4ddc80d79e3160537"])
 scheduler.start()
+
 
 
 @app.route("/callback", methods=['POST'])
