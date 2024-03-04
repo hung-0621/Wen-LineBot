@@ -71,7 +71,8 @@ def handle_message(event):
         if event.message.text == "嗨張子儀" and event.source.type == "group":
             greetToYee(event=event, line_bot_api=line_bot_api)
         else:
-            defaultMsg(event=event, line_bot_api=line_bot_api)
+            pass
+            # defaultMsg(event=event, line_bot_api=line_bot_api)
 
 
 if __name__ == "__main__":
