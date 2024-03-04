@@ -28,16 +28,17 @@ configuration = Configuration(
 handler = WebhookHandler(os.getenv('CHANNEL_SECRET', None))
 
 
-def send_daily_message():
+def send_daily_message(group_id,user_id):
     with ApiClient(configuration) as api_client:
         line_bot_api = MessagingApi(api_client)
         # Replace 'YOUR_GROUP_ID' with the actual ID of your group
         # Replace 'USER_ID' with the actual ID of the user you want to mention
-        line_bot_api.push_message('YOUR_GROUP_ID', TextMessage(text="<@USER_ID> 三點了 ！！ 起來重睡 ！！"))
+        line_bot_api.push_message(group_id, TextMessage(text=f"<@{user_id}> 三點了 ！！ 起來重睡 ！！"))
 
 
 scheduler = BackgroundScheduler()
-scheduler.add_job(send_daily_message, 'cron', hour=3, minute=0, second=0, timezone=timezone('Asia/Taipei'))
+# 1337 group to spam yee
+scheduler.add_job(send_daily_message(group_id="Ca910ecfb8c7289e2c5fc51d58189d01c",user_id="U58844313499a9cd4ddc80d79e3160537"), 'cron', hour=3, minute=0, second=0, timezone=timezone('Asia/Taipei'))
 # scheduler.start()
 
 
@@ -83,14 +84,15 @@ def dump_handled_message(event):
     source_type = event.source.type
     if source_type == "group":
         group_id = event.source.group_id
-        print(f"Group ID: {group_id}")
+        # print(f"Group ID: {group_id}")
+        user_id = event.source.user_id
+        print(f"Group ID: {group_id} ; User ID: {user_id}")
     elif source_type == "user":
         user_id = event.source.user_id
         print(f"User ID: {user_id}")
 
     # Get the user's message
     user_message = event.message.text
-    # print(f"User's message: {user_message}")
 
     # Get the user's profile information
     with ApiClient(configuration) as api_client:
@@ -99,6 +101,7 @@ def dump_handled_message(event):
         print(f"User's name: {profile.display_name}\nmessage: {user_message}")
 
     print()
+
 
 
 @handler.add(MessageEvent, message=TextMessageContent)
