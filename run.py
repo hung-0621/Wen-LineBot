@@ -51,11 +51,20 @@ def send_daily_message_12am(group_id, name):
         push_message_request = PushMessageRequest(to=group_id, messages=[message])
         line_bot_api.push_message(push_message_request)
 
+
+def send_daily_message_3pm(group_id, name):
+    with ApiClient(configuration) as api_client:
+        line_bot_api = MessagingApi(api_client)
+        message = TextMessage(text=f'{name} 下午三點了 ！！ 起來喝下午”茶“ ！！')
+        push_message_request = PushMessageRequest(to=group_id, messages=[message])
+        line_bot_api.push_message(push_message_request)
+
 scheduler = BackgroundScheduler()
 # 1337 group to spam yee
 scheduler.add_job(send_daily_message_3am, 'cron', hour=3, minute=0, second=0, timezone=timezone('Asia/Taipei'), args=["Ca910ecfb8c7289e2c5fc51d58189d01c", "張子儀"])
 scheduler.add_job(send_daily_message_8am, 'cron', hour=8, minute=0, second=0, timezone=timezone('Asia/Taipei'), args=["Ca910ecfb8c7289e2c5fc51d58189d01c", "張子儀"])
 scheduler.add_job(send_daily_message_12am, 'cron', hour=12, minute=0, second=0, timezone=timezone('Asia/Taipei'), args=["Ca910ecfb8c7289e2c5fc51d58189d01c", "張子儀"])
+scheduler.add_job(send_daily_message_3pm, 'cron', hour=15, minute=0, second=0, timezone=timezone('Asia/Taipei'), args=["Ca910ecfb8c7289e2c5fc51d58189d01c", "張子儀"])
 scheduler.start()
 
 
