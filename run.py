@@ -21,7 +21,8 @@ from linebot.v3.webhooks import (
 
 app = Flask(__name__)
 
-configuration = Configuration(access_token=os.getenv('CHANNEL_ACCESS_TOKEN', None))
+configuration = Configuration(
+    access_token=os.getenv('CHANNEL_ACCESS_TOKEN', None))
 handler = WebhookHandler(os.getenv('CHANNEL_SECRET', None))
 
 
@@ -38,22 +39,40 @@ def callback():
     try:
         handler.handle(body, signature)
     except InvalidSignatureError:
-        app.logger.info("Invalid signature. Please check your channel access token/channel secret.")
+        app.logger.info(
+            "Invalid signature. Please check your channel access token/channel secret.")
         abort(400)
 
     return 'OK'
+
+
+def greetToYee(event: MessageEvent, line_bot_api: MessagingApi):
+    line_bot_api.reply_message_with_http_info(
+        ReplyMessageRequest(
+            reply_token=event.reply_token,
+            messages=[TextMessage(text="嗨張子儀，今天的張子儀也很張子儀，今天義大利麵也要記得拌42號混凝土ㄛ")]
+        )
+    )
+
+
+def defaultMsg(event: MessageEvent, line_bot_api: MessagingApi):
+    line_bot_api.reply_message_with_http_info(
+        ReplyMessageRequest(
+            reply_token=event.reply_token,
+            messages=[TextMessage(text=event.message.text)]
+        )
+    )
 
 
 @handler.add(MessageEvent, message=TextMessageContent)
 def handle_message(event):
     with ApiClient(configuration) as api_client:
         line_bot_api = MessagingApi(api_client)
-        line_bot_api.reply_message_with_http_info(
-            ReplyMessageRequest(
-                reply_token=event.reply_token,
-                messages=[TextMessage(text=event.message.text)]
-            )
-        )
+        if event.message.text == "嗨張子儀" and event.source.type == "group":
+            greetToYee(event=event, line_bot_api=line_bot_api)
+        else:
+            defaultMsg(event=event, line_bot_api=line_bot_api)
+
 
 if __name__ == "__main__":
     app.run()
