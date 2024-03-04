@@ -21,6 +21,10 @@ from linebot.v3.webhooks import (
     TextMessageContent
 )
 
+from linebot.v3.models import (
+    PushMessageRequest
+)
+
 app = Flask(__name__)
 
 configuration = Configuration(
@@ -28,15 +32,23 @@ configuration = Configuration(
 handler = WebhookHandler(os.getenv('CHANNEL_SECRET', None))
 
 
-def send_daily_message(group_id,name):
+# def send_daily_message(group_id,name):
+#     with ApiClient(configuration) as api_client:
+#         line_bot_api = MessagingApi(api_client)
+#         line_bot_api.push_message(group_id, TextMessage(text=f"{name} 三點了 ！！ 起來重睡 ！！"))
+
+
+def send_daily_message(group_id, name):
     with ApiClient(configuration) as api_client:
         line_bot_api = MessagingApi(api_client)
-        line_bot_api.push_message(group_id, TextMessage(text=f"{name} 三點了 ！！ 起來重睡 ！！"))
+        message = TextMessage(text=f"{name} 三點了 ！！ 起來重睡 ！！")
+        push_message_request = PushMessageRequest(to=group_id, messages=[message])
+        line_bot_api.push_message(push_message_request)
 
 
 scheduler = BackgroundScheduler()
 # 1337 group to spam yee
-scheduler.add_job(send_daily_message, 'cron', hour=7, minute=5, second=0, timezone=timezone('Asia/Taipei'), args=["Ca910ecfb8c7289e2c5fc51d58189d01c", "張子儀"])
+scheduler.add_job(send_daily_message, 'cron', hour=7, minute=12, second=0, timezone=timezone('Asia/Taipei'), args=["Ca910ecfb8c7289e2c5fc51d58189d01c", "張子儀"])
 scheduler.start()
 
 
@@ -110,7 +122,6 @@ def handle_message(event):
         dump_handled_message(event=event)
         if event.message.text == "嗨張子儀" and event.source.type == "group":
             # print(f"Group ID: {event.source.group_id}")
-            send_daily_message(group_id="Ca910ecfb8c7289e2c5fc51d58189d01c",name="張子儀")
             greetToYee(event=event, line_bot_api=line_bot_api)
         else:
             pass
