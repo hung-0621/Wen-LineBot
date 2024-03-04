@@ -14,15 +14,12 @@ from linebot.v3.messaging import (
     ApiClient,
     MessagingApi,
     ReplyMessageRequest,
-    TextMessage
+    TextMessage,
+    PushMessageRequest
 )
 from linebot.v3.webhooks import (
     MessageEvent,
     TextMessageContent
-)
-
-from linebot.v3.models import (
-    PushMessageRequest
 )
 
 app = Flask(__name__)
@@ -48,7 +45,7 @@ def send_daily_message(group_id, name):
 
 scheduler = BackgroundScheduler()
 # 1337 group to spam yee
-scheduler.add_job(send_daily_message, 'cron', hour=7, minute=12, second=0, timezone=timezone('Asia/Taipei'), args=["Ca910ecfb8c7289e2c5fc51d58189d01c", "張子儀"])
+scheduler.add_job(send_daily_message, 'cron', hour=7, minute=23, second=0, timezone=timezone('Asia/Taipei'), args=["Ca910ecfb8c7289e2c5fc51d58189d01c", "張子儀"])
 scheduler.start()
 
 
