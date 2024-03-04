@@ -1,8 +1,5 @@
 import os
 from flask import Flask, request, abort
-from linebot import LineBotApi, WebhookHandler
-from linebot.models import MessageEvent, TextMessage, TextSendMessage
-
 
 from linebot.v3 import (
     WebhookHandler
@@ -26,7 +23,7 @@ app = Flask(__name__)
 
 configuration = Configuration(access_token=os.getenv('CHANNEL_ACCESS_TOKEN', None))
 handler = WebhookHandler(os.getenv('CHANNEL_SECRET', None))
-line_bot_api = LineBotApi(os.getenv('CHANNEL_ACCESS_TOKEN', None))
+
 
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -47,31 +44,16 @@ def callback():
     return 'OK'
 
 
-# @handler.add(MessageEvent, message=TextMessageContent)
-# def handle_message(event):
-#     if event.message.text == "嗨張子儀" and event.source.type == "group":
-#         with ApiClient(configuration) as api_client:
-#             line_bot_api = MessagingApi(api_client)
-#             line_bot_api.reply_message_with_http_info(
-#                 ReplyMessageRequest(
-#                     reply_token=event.reply_token,
-#                     messages=[TextMessage(text="嗨張子儀")]
-#                 )
-#             )
-
-@handler.add(MessageEvent, message=TextMessage)
+@handler.add(MessageEvent, message=TextMessageContent)
 def handle_message(event):
-    if event.message.text == "嗨張子儀" and event.source.type == "group":
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text="嗨張子儀，今天的張子儀也很張子儀，泰褲辣！！")
+    with ApiClient(configuration) as api_client:
+        line_bot_api = MessagingApi(api_client)
+        line_bot_api.reply_message_with_http_info(
+            ReplyMessageRequest(
+                reply_token=event.reply_token,
+                messages=[TextMessage(text=event.message.text)]
+            )
         )
-    else :
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text="測試")
-        )
-
 
 if __name__ == "__main__":
     app.run()
