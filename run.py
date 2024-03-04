@@ -66,6 +66,11 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text="嗨張子儀，今天的張子儀也很張子儀，泰褲辣！！")
         )
+    else :
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="測試")
+        )
 
 
 if __name__ == "__main__":
