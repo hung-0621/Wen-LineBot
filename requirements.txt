@@ -9,3 +9,5 @@ Deprecated
 gunicorn
 flask
 line-bot-sdk
+pytz
+apscheduler
