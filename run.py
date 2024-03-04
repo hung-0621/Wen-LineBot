@@ -28,10 +28,11 @@ configuration = Configuration(
 handler = WebhookHandler(os.getenv('CHANNEL_SECRET', None))
 
 
-def send_daily_message(group_id, user_id):
+def send_daily_message(group_id,name):
     with ApiClient(configuration) as api_client:
         line_bot_api = MessagingApi(api_client)
-        line_bot_api.push_message(group_id, TextMessage(text=f"<@{user_id}> 三點了 ！！ 起來重睡 ！！"))
+        line_bot_api.push_message(group_id, TextMessage(text=f"{name} 三點了 ！！ 起來重睡 ！！"))
+
 
 scheduler = BackgroundScheduler()
 # 1337 group to spam yee
@@ -109,7 +110,7 @@ def handle_message(event):
         dump_handled_message(event=event)
         if event.message.text == "嗨張子儀" and event.source.type == "group":
             # print(f"Group ID: {event.source.group_id}")
-            send_daily_message(group_id="Ca910ecfb8c7289e2c5fc51d58189d01c",user_id="U58844313499a9cd4ddc80d79e3160537")
+            send_daily_message(group_id="Ca910ecfb8c7289e2c5fc51d58189d01c",name="張子儀")
             greetToYee(event=event, line_bot_api=line_bot_api)
         else:
             pass
