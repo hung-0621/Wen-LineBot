@@ -108,7 +108,8 @@ def handle_message(event):
         line_bot_api = MessagingApi(api_client)
         dump_handled_message(event=event)
         if event.message.text == "嗨張子儀" and event.source.type == "group":
-            print(f"Group ID: {event.source.group_id}")
+            # print(f"Group ID: {event.source.group_id}")
+            send_daily_message(group_id="Ca910ecfb8c7289e2c5fc51d58189d01c",user_id="U58844313499a9cd4ddc80d79e3160537")
             greetToYee(event=event, line_bot_api=line_bot_api)
         else:
             pass
