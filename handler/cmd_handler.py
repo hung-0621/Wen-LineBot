@@ -36,16 +36,13 @@ class CMD_HANDLER:
 
     def send_image(self, url):
         image_message = ImageMessage(
-            original_content_url=url,
-            preview_image_url=url
-        )
-        push_message_request = PushMessageRequest(
-            to=self.event.source.group_id,
-            messages=[image_message]
-        )
-        self.line_bot_api.send_push_message(push_message_request)
+        original_content_url=url,
+        preview_image_url=url
+    )
+    # push_message_request is not required when using the push_message method
         self.line_bot_api.push_message(
-            self.event.source.group_id, [image_message])
+        self.event.source.group_id, image_message)
+
 
     def send_message(self,msg):
         self.line_bot_api.reply_message_with_http_info(
