@@ -39,8 +39,7 @@ class CMD_HANDLER:
 這是本機器人操作指令說明
 --------------------
 可用指令：
-{[k+"\n" for k in self.CMD_DICT.keys()]}
-    """
+"""+[f"{k}\n" for k in self.CMD_DICT.keys()]
         return msg
 
     def __init__(self):
