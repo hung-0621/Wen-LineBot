@@ -76,7 +76,7 @@ class CMD_HANDLER:
         self.event = event
         self.line_bot_api = line_bot_api
 
-        self.cmd_dict["嗨張子儀"] = lambda: self.send_message(
+        self.cmd_dict["嗨張子儀"] = self.send_message(
             "嗨張子儀，今天的張子儀也很張子儀，今天義大利麵也要記得拌42號混凝土ㄛ")
         self.cmd_dict["欸張子儀"] = lambda: self.send_message(
             "欸張子儀，"+self.get_response_from_url())
