@@ -39,16 +39,9 @@ class CMD_HANDLER:
         original_content_url=url,
         preview_image_url=url
     )
-        image_message_dict = {
-        'type': 'image',
-        'originalContentUrl': image_message.original_content_url,
-        'previewImageUrl': image_message.preview_image_url
-    }
-        self.line_bot_api.reply_message_with_http_info(
-        ReplyMessageRequest(
-            reply_token=self.event.reply_token,
-            messages=[image_message_dict]
-        )
+        self.line_bot_api.reply_message(
+        self.event.reply_token,
+        image_message
     )
 
 
