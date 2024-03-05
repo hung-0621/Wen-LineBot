@@ -141,7 +141,7 @@ def dump_handled_message(event):
 def handle_message(event):
     with ApiClient(configuration) as api_client:
         line_bot_api = MessagingApi(api_client)
-        dump_handled_message(event=event)
+        # dump_handled_message(event=event)
         if event.message.text in CMD_DICT and event.source.type == "group":
             # print(f"Group ID: {event.source.group_id}")
             greetToYee(event=event, line_bot_api=line_bot_api)
