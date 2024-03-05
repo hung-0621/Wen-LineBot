@@ -38,7 +38,12 @@ class MSG_HANDLER:
         if key.replace(" ", "").lower() == "bothelp":
             key = "bot help"
         if (self.cmd_handler.key_is_in_dict(key) and self.event.source.type == "group"):
-            self.cmd_handler.get_dict_value(key)()
+            func = self.cmd_handler.get_dict_value(key)
+            if func is not None:
+                func()
+            else:
+                print(f"No command found for key: {key}")
+
         #     self.line_bot_api.reply_message_with_http_info(
         #     ReplyMessageRequest(
         #         reply_token=self.event.reply_token,
