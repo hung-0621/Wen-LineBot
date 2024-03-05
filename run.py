@@ -1,3 +1,4 @@
+import datetime
 import os
 from flask import Flask, request, abort
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -29,42 +30,25 @@ configuration = Configuration(
 handler = WebhookHandler(os.getenv('CHANNEL_SECRET', None))
 
 
-def send_daily_message_3am(group_id, name):
+messages = {
+    0: "午夜了 ！！ 起來進食 ！！",
+    3: "三點了 ！！ 起來重睡 ！！",
+    8: "八點了 ！！ 起來早八 ！！",
+    15: "下午三點了 ！！ 起來喝下午”茶“ ！！",
+}
+
+def send_hourly_message(group_id, name):
+    hour = datetime.now(timezone('Asia/Taipei')).hour
     with ApiClient(configuration) as api_client:
         line_bot_api = MessagingApi(api_client)
-        message = TextMessage(text=f"{name} 三點了 ！！ 起來重睡 ！！")
-        push_message_request = PushMessageRequest(to=group_id, messages=[message])
-        line_bot_api.push_message(push_message_request)
-
-
-def send_daily_message_8am(group_id, name):
-    with ApiClient(configuration) as api_client:
-        line_bot_api = MessagingApi(api_client)
-        message = TextMessage(text=f"{name} 八點了 ！！ 起來早八 ！！")
-        push_message_request = PushMessageRequest(to=group_id, messages=[message])
-        line_bot_api.push_message(push_message_request)
-
-def send_daily_message_12am(group_id, name):
-    with ApiClient(configuration) as api_client:
-        line_bot_api = MessagingApi(api_client)
-        message = TextMessage(text=f"{name} 十二點了 ！！ 起來進食 ！！")
-        push_message_request = PushMessageRequest(to=group_id, messages=[message])
-        line_bot_api.push_message(push_message_request)
-
-
-def send_daily_message_3pm(group_id, name):
-    with ApiClient(configuration) as api_client:
-        line_bot_api = MessagingApi(api_client)
-        message = TextMessage(text=f'{name} 下午三點了 ！！ 起來喝下午”茶“ ！！')
+        message_text = messages.get(hour,"測試排程訊息")
+        message = TextMessage(text=f"{name} {message_text}")
         push_message_request = PushMessageRequest(to=group_id, messages=[message])
         line_bot_api.push_message(push_message_request)
 
 scheduler = BackgroundScheduler()
-# 1337 group to spam yee
-scheduler.add_job(send_daily_message_3am, 'cron', hour=3, minute=0, second=0, timezone=timezone('Asia/Taipei'), args=["Ca910ecfb8c7289e2c5fc51d58189d01c", "張子儀"])
-scheduler.add_job(send_daily_message_8am, 'cron', hour=8, minute=0, second=0, timezone=timezone('Asia/Taipei'), args=["Ca910ecfb8c7289e2c5fc51d58189d01c", "張子儀"])
-scheduler.add_job(send_daily_message_12am, 'cron', hour=12, minute=0, second=0, timezone=timezone('Asia/Taipei'), args=["Ca910ecfb8c7289e2c5fc51d58189d01c", "張子儀"])
-scheduler.add_job(send_daily_message_3pm, 'cron', hour=15, minute=0, second=0, timezone=timezone('Asia/Taipei'), args=["Ca910ecfb8c7289e2c5fc51d58189d01c", "張子儀"])
+# scheduler.add_job(send_hourly_message, 'cron', minute=0, second=0, timezone=timezone('Asia/Taipei'), args=["Ca910ecfb8c7289e2c5fc51d58189d01c", "張子儀"])
+scheduler.add_job(send_hourly_message, 'cron', second=0, timezone=timezone('Asia/Taipei'), args=["Ca910ecfb8c7289e2c5fc51d58189d01c", "張子儀"])
 scheduler.start()
 
 
