@@ -18,8 +18,7 @@ from linebot.v3.webhooks import (
     TextMessageContent
 )
 
-from linebot.v3.messaging.models import ImageMessage
-
+from linebot.models.send_messages import ImageSendMessage
 import requests
 
 
@@ -35,12 +34,10 @@ class CMD_HANDLER:
         return response.text
 
     def send_image(self, url):
-        image_message = ImageMessage(
-            original_content_url=url,
-            preview_image_url=url
-        )
-        self.line_bot_api.reply_message(
-            self.event.reply_token, [image_message])
+        image_message = ImageSendMessage(
+        original_content_url=url,
+        preview_image_url=url
+)
 
     def send_message(self, msg):
         self.line_bot_api.reply_message_with_http_info(
