@@ -54,7 +54,7 @@ class CMD_HANDLER:
 
 
     def __init__(self):
-        self.cmd_dict["欸張子儀"] = "欸張子儀"+self.get_response_from_url
+        self.cmd_dict["欸張子儀"] = "欸張子儀"+self.get_response_from_url()
 
     def handle(self):
         pass
