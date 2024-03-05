@@ -34,13 +34,20 @@ class CMD_HANDLER:
         response = requests.get(self.RANDOM_SENTENCE_URL)
         return response.text
 
-    def send_image(self, url):
-        print(f"Should send image {url}")
-        self.line_bot_api.reply_message(
-            self.event.reply_token,
-            ImageSendMessage(original_content_url=url)
-        )
+    # def send_image(self, url):
+    #     print(f"Should send image {url}")
+    #     self.line_bot_api.reply_message(
+    #         self.event.reply_token,
+    #         ImageSendMessage(original_content_url=url)
+    #     )
 
+    def send_image(self, url):
+        self.line_bot_api.reply_message_with_http_info(
+            ReplyMessageRequest(
+                reply_token=self.event.reply_token,
+                messages=[ImageSendMessage(original_content_url=url)]
+            )
+        )
 
 
 
