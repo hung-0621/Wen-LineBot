@@ -41,15 +41,8 @@ class MSG_HANDLER:
             func = self.cmd_handler.get_dict_value(key)
             if func is not None:
                 func()
-            else:
-                print(f"No command found for key: {key}")
-
-        #     self.line_bot_api.reply_message_with_http_info(
-        #     ReplyMessageRequest(
-        #         reply_token=self.event.reply_token,
-        #         messages=[TextMessage(text=self.cmd_handler.get_dict_value(key=key))]
-        #     )
-        # )
+            # else:
+            #     print(f"No command found for key: {key}")
 
     def dump_handled_message(self):
         source_type = self.event.source.type
