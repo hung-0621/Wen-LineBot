@@ -94,7 +94,7 @@ class CMD_HANDLER:
             "hasi re so ri yo\nkaze no you ni\ntsuki mi hara wo\nPADORU！PADORU！")
         self.cmd_dict["張子儀不會"] = lambda: self.send_message(
             "張子儀不會，可是"+random.choice(["李多慧","茶湯會","獅子會","紅十字會","光明會"]))
-        self.cmd_dict["喝水水"] = lambda: self.drink_water()
+        self.cmd_dict["喝水水"] = lambda:self.send_image("https://raw.githubusercontent.com/Wen-Line-Bot/Wen-LineBot/main/images/drink_water.jpg") #lambda: self.drink_water()
 
         help_msg = """
 這是本機器人操作指令說明
