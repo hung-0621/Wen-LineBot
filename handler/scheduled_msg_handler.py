@@ -40,8 +40,9 @@ class SCHEDULED_HANDLER:
         self.event = event
         self.line_bot_api = line_bot_api
         self.configuration = configuration
-        self.set_schedule()
-        self.scheduler.start()
+        if not self.scheduler.running:
+            self.set_schedule()
+            self.scheduler.start()
 
 
     def send_hourly_message(self,group_id, name):
