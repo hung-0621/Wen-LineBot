@@ -32,12 +32,10 @@ class SCHEDULED_HANDLER:
 
     scheduler = BackgroundScheduler()
 
-    event: MessageEvent
     line_bot_api: MessagingApi
     configuration: Configuration
 
-    def __init__(self,event,line_bot_api,configuration):
-        self.event = event
+    def __init__(self,line_bot_api,configuration):
         self.line_bot_api = line_bot_api
         self.configuration = configuration
         if not self.scheduler.running:
