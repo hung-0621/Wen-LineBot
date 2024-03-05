@@ -17,7 +17,7 @@ from linebot.v3.webhooks import (
     TextMessageContent
 )
 
-from cmd_handler import CMD_HANDLER
+from handler.cmd_handler import CMD_HANDLER
 
 class MSG_HANDLER:
 
