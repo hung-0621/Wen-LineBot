@@ -10,6 +10,7 @@ from linebot.v3.messaging import (
     MessagingApi,
     ReplyMessageRequest,
     TextMessage,
+    ImageMessage,
     PushMessageRequest,
 )
 
@@ -18,7 +19,7 @@ from linebot.v3.webhooks import (
     TextMessageContent
 )
 
-from linebot.models import ImageSendMessage
+# from linebot.models import ImageSendMessage
 import requests
 from typing import Callable, Dict
 import random
@@ -45,7 +46,7 @@ class CMD_HANDLER:
         self.line_bot_api.reply_message_with_http_info(
             ReplyMessageRequest(
                 reply_token=self.event.reply_token,
-                messages=[ImageSendMessage(original_content_url=url)]
+                messages=[ImageMessage(originalContentUrl=url,previewImageUrl=url)]
             )
         )
 
