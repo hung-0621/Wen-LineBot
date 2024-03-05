@@ -1,1 +1,2 @@
 * 1337 group , Ca910ecfb8c7289e2c5fc51d58189d01c
+* bot test group , C7f44352f6748f82224d1c211175ae839

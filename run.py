@@ -23,6 +23,9 @@ from linebot.v3.webhooks import (
     TextMessageContent
 )
 
+from handler.msg_handler import MSG_HANDLER
+from handler.cmd_handler import CMD_HANDLER
+
 app = Flask(__name__)
 
 configuration = Configuration(
@@ -48,7 +51,7 @@ def send_hourly_message(group_id, name):
 
 scheduler = BackgroundScheduler()
 scheduler.add_job(send_hourly_message, 'cron', minute=0, second=0, timezone=timezone('Asia/Taipei'), args=["Ca910ecfb8c7289e2c5fc51d58189d01c", "張子儀"])
-# scheduler.add_job(send_hourly_message, 'cron', second=0, timezone=timezone('Asia/Taipei'), args=["Ca910ecfb8c7289e2c5fc51d58189d01c", "張子儀"])
+# scheduler.add_job(send_hourly_message, 'cron', second=0, timezone=timezone('Asia/Taipei'), args=["C7f44352f6748f82224d1c211175ae839", "張子儀"])
 scheduler.start()
 
 
@@ -126,13 +129,17 @@ def dump_handled_message(event):
 def handle_message(event):
     with ApiClient(configuration) as api_client:
         line_bot_api = MessagingApi(api_client)
-        dump_handled_message(event=event)
-        if event.message.text in CMD_DICT and event.source.type == "group":
-            # print(f"Group ID: {event.source.group_id}")
-            greetToYee(event=event, line_bot_api=line_bot_api)
-        else:
-            pass
-            # defaultMsg(event=event, line_bot_api=line_bot_api)
+        # dump_handled_message(event=event)
+        # if event.message.text in CMD_DICT and event.source.type == "group":
+        #     # print(f"Group ID: {event.source.group_id}")
+        #     greetToYee(event=event, line_bot_api=line_bot_api)
+        # else:
+        #     pass
+        #     # defaultMsg(event=event, line_bot_api=line_bot_api)
+
+    cmd_handler = CMD_HANDLER()
+    msg_handler = MSG_HANDLER(event=event,configuration=configuration,line_bot_api=line_bot_api,cmd_handler=cmd_handler)
+    msg_handler.handle()
 
 
 if __name__ == "__main__":
