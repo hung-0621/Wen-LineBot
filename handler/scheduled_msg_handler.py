@@ -54,7 +54,7 @@ class SCHEDULED_HANDLER:
     # Add schedules here
     def set_schedule(self):
         self.scheduler.add_job(self.send_hourly_message, 'cron', minute=0, second=0, timezone=timezone('Asia/Taipei'), args=["Ca910ecfb8c7289e2c5fc51d58189d01c", "張子儀"])
-        # self.scheduler.add_job(self.send_hourly_message, 'cron', second=0, timezone=timezone('Asia/Taipei'), args=["C7f44352f6748f82224d1c211175ae839", "張子儀"])
+        self.scheduler.add_job(self.send_hourly_message, 'cron', second=0, timezone=timezone('Asia/Taipei'), args=["C7f44352f6748f82224d1c211175ae839", "張子儀"])
 
     def handle(self):
         pass
