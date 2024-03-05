@@ -47,8 +47,8 @@ def send_hourly_message(group_id, name):
         line_bot_api.push_message(push_message_request)
 
 scheduler = BackgroundScheduler()
-#scheduler.add_job(send_hourly_message, 'cron', minute=0, second=0, timezone=timezone('Asia/Taipei'), args=["Ca910ecfb8c7289e2c5fc51d58189d01c", "張子儀"])
-scheduler.add_job(send_hourly_message, 'cron', second=0, timezone=timezone('Asia/Taipei'), args=["Ca910ecfb8c7289e2c5fc51d58189d01c", "張子儀"])
+scheduler.add_job(send_hourly_message, 'cron', minute=0, second=0, timezone=timezone('Asia/Taipei'), args=["Ca910ecfb8c7289e2c5fc51d58189d01c", "張子儀"])
+# scheduler.add_job(send_hourly_message, 'cron', second=0, timezone=timezone('Asia/Taipei'), args=["Ca910ecfb8c7289e2c5fc51d58189d01c", "張子儀"])
 scheduler.start()
 
 
