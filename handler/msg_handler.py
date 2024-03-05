@@ -39,7 +39,7 @@ class MSG_HANDLER:
             self.line_bot_api.reply_message_with_http_info(
             ReplyMessageRequest(
                 reply_token=self.event.reply_token,
-                messages=[TextMessage(text=self.cmd_handler.get_dict_value(key=key))]
+                messages=[TextMessage(text=self.cmd_handler.get_dict_value(key="bot help"))]
             )
         )
 
