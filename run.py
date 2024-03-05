@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 import os
 from flask import Flask, request, abort
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -31,9 +31,9 @@ handler = WebhookHandler(os.getenv('CHANNEL_SECRET', None))
 
 
 messages = {
-    0: "午夜了 ！！ 起來進食 ！！",
     3: "三點了 ！！ 起來重睡 ！！",
     8: "八點了 ！！ 起來早八 ！！",
+    12: "十二點了 ！！ 起來進食 ！！",
     15: "下午三點了 ！！ 起來喝下午”茶“ ！！",
 }
 
@@ -47,7 +47,7 @@ def send_hourly_message(group_id, name):
         line_bot_api.push_message(push_message_request)
 
 scheduler = BackgroundScheduler()
-# scheduler.add_job(send_hourly_message, 'cron', minute=0, second=0, timezone=timezone('Asia/Taipei'), args=["Ca910ecfb8c7289e2c5fc51d58189d01c", "張子儀"])
+#scheduler.add_job(send_hourly_message, 'cron', minute=0, second=0, timezone=timezone('Asia/Taipei'), args=["Ca910ecfb8c7289e2c5fc51d58189d01c", "張子儀"])
 scheduler.add_job(send_hourly_message, 'cron', second=0, timezone=timezone('Asia/Taipei'), args=["Ca910ecfb8c7289e2c5fc51d58189d01c", "張子儀"])
 scheduler.start()
 
