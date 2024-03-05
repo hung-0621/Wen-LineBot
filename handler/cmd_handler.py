@@ -20,7 +20,7 @@ from linebot.v3.webhooks import (
 
 from linebot.models.send_messages import ImageSendMessage
 import requests
-
+from typing import Callable, Dict
 
 class CMD_HANDLER:
 
@@ -54,9 +54,11 @@ class CMD_HANDLER:
             )
         )
 
-    cmd_dict: dict[str:callable] = {
+    # cmd_dict: dict[str:callable] = {
 
-    }
+    # }
+
+    cmd_dict: Dict[str, Callable[[], None]] = {}
 
     def key_is_in_dict(self, key) -> bool:
         return key in self.cmd_dict
