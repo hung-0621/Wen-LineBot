@@ -95,7 +95,7 @@ class CMD_HANDLER:
         self.cmd_dict["padoru"] = lambda: self.send_message(
             "hasi re so ri yo\nkaze no you ni\ntsuki mi hara wo\nPADORU！PADORU！")
         self.cmd_dict["張子儀不會"] = lambda: self.send_message(
-            "張子儀不會，可是"+random.choice(["李多慧","茶湯會","獅子會","紅十字會"]))
+            "張子儀不會，可是"+random.choice(["李多慧","茶湯會","獅子會","紅十字會","光明會"]))
         self.cmd_dict["喝水水"] = lambda: self.drink_water()
 
         help_msg = """
