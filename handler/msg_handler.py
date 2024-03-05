@@ -41,8 +41,8 @@ class MSG_HANDLER:
             func = self.cmd_handler.get_dict_value(key)
             if func is not None:
                 func()
-            # else:
-            #     print(f"No command found for key: {key}")
+            else:
+                print(f"No command found for key: {key}")
 
     def dump_handled_message(self):
         source_type = self.event.source.type
