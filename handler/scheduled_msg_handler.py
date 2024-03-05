@@ -30,6 +30,8 @@ class SCHEDULED_HANDLER:
         15: "下午三點了 ！！ 起來喝下午”茶“ ！！",
     }
 
+    scheduler = BackgroundScheduler()
+
     event: MessageEvent
     line_bot_api: MessagingApi
     configuration: Configuration
@@ -38,6 +40,8 @@ class SCHEDULED_HANDLER:
         self.event = event
         self.line_bot_api = line_bot_api
         self.configuration = configuration
+        self.set_schedule()
+        self.scheduler.start()
 
 
     def send_hourly_message(self,group_id, name):
@@ -47,8 +51,14 @@ class SCHEDULED_HANDLER:
         push_message_request = PushMessageRequest(to=group_id, messages=[message])
         self.line_bot_api.push_message(push_message_request)
 
+
+    def set_schedule(self):
+        self.scheduler.add_job(self.send_hourly_message, 'cron', minute=0, second=0, timezone=timezone('Asia/Taipei'), args=["Ca910ecfb8c7289e2c5fc51d58189d01c", "張子儀"])
+        self.scheduler.add_job(self.send_hourly_message, 'cron', second=0, timezone=timezone('Asia/Taipei'), args=["C7f44352f6748f82224d1c211175ae839", "張子儀"])
+
     def handle(self):
-        scheduler = BackgroundScheduler()
-        scheduler.add_job(self.send_hourly_message, 'cron', minute=0, second=0, timezone=timezone('Asia/Taipei'), args=["Ca910ecfb8c7289e2c5fc51d58189d01c", "張子儀"])
-        #scheduler.add_job(self.send_hourly_message, 'cron', second=0, timezone=timezone('Asia/Taipei'), args=["C7f44352f6748f82224d1c211175ae839", "張子儀"])
-        scheduler.start()
+        pass
+        # scheduler = BackgroundScheduler()
+        # scheduler.add_job(self.send_hourly_message, 'cron', minute=0, second=0, timezone=timezone('Asia/Taipei'), args=["Ca910ecfb8c7289e2c5fc51d58189d01c", "張子儀"])
+        # #scheduler.add_job(self.send_hourly_message, 'cron', second=0, timezone=timezone('Asia/Taipei'), args=["C7f44352f6748f82224d1c211175ae839", "張子儀"])
+        # scheduler.start()
