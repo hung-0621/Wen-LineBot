@@ -38,7 +38,7 @@ class CMD_HANDLER:
         print(f"Should send image {url}")
         self.line_bot_api.reply_message(
             self.event.reply_token,
-            ImageSendMessage(url, url)
+            ImageSendMessage(original_content_url=url)
         )
 
 
