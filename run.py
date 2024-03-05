@@ -116,6 +116,7 @@ def dump_handled_message(event):
     #     line_bot_api = MessagingApi(api_client)
     #     profile = line_bot_api.get_profile(user_id)
     #     print(f"User's name: {profile.display_name}\nmessage: {user_message}")
+    print(user_message)
 
     print()
 
