@@ -49,16 +49,8 @@ class CMD_HANDLER:
         )
 
     cmd_dict: dict[str:callable] = {
-        "bot help": None,
+        
     }
-
-    help_msg = """
-這是本機器人操作指令說明
---------------------
-可用指令：\n
-""" + "\n".join([f"- {k}" for k in cmd_dict.keys()])
-
-    cmd_dict["bot help"] = help_msg
 
     def key_is_in_dict(self, key) -> bool:
         return key in self.cmd_dict
@@ -70,8 +62,8 @@ class CMD_HANDLER:
         return value
 
     def drink_water(self):
-        # self.send_image(
-        #     "https://raw.githubusercontent.com/Wen-Line-Bot/Wen-LineBot/main/images/drink_water.png")
+        self.send_image(
+            "https://raw.githubusercontent.com/Wen-Line-Bot/Wen-LineBot/main/images/drink_water.png")
         self.send_message("水量++")
 
     def __init__(self, event, line_bot_api):
@@ -94,11 +86,15 @@ class CMD_HANDLER:
         self.cmd_dict["padoru"] = lambda: self.send_message(
             "hasi re so ri yo\nkaze no you ni\ntsuki mi hara wo\nPADORU！PADORU！")
         self.cmd_dict["喝水水"] = lambda: self.drink_water()
-        self.cmd_dict["bot help"] = lambda: self.send_message("""
+
+
+        help_msg = """
 這是本機器人操作指令說明
 --------------------
 可用指令：\n
-""" + "\n".join([f"- {k}" for k in self.cmd_dict.keys()]))
+""" + "\n".join([f"- {k}" for k in self.cmd_dict.keys()])
+
+        self.cmd_dict["bot help"] = lambda: self.send_message(help_msg)
 
     def handle(self):
         pass
