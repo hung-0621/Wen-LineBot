@@ -64,7 +64,7 @@ class CMD_HANDLER:
     def get_dict_value(self, key) -> any:
         value = self.cmd_dict[key]
         if callable(value):
-            return value()
+            return value  # Don't execute the function here
         return value
 
     def drink_water(self):
