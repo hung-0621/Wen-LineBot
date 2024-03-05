@@ -41,8 +41,9 @@ class CMD_HANDLER:
     )
         self.line_bot_api.reply_message(
         self.event.reply_token,
-        image_message
+        [image_message]
     )
+
 
 
 
