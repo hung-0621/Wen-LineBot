@@ -58,7 +58,7 @@ def callback():
 def handle_message(event):
     with ApiClient(configuration) as api_client:
         line_bot_api = MessagingApi(api_client)
-    cmd_handler = CMD_HANDLER()
+    cmd_handler = CMD_HANDLER(event=event,line_bot_api=line_bot_api)
     msg_handler = MSG_HANDLER(event=event,configuration=configuration,line_bot_api=line_bot_api,cmd_handler=cmd_handler)
     msg_handler.handle()
 
