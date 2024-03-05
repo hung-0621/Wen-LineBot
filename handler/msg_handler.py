@@ -34,8 +34,8 @@ class MSG_HANDLER:
         self.cmd_handler = cmd_handler
 
     def cmd_handle(self):
-        key = self.event.message.text
-        if (self.cmd_handler.key_is_in_dict(key) and self.event.source.type == "group") or (key.isalnum() and key.lower() == "bot help"):
+        key = self.event.message.text.replace(" ", "")
+        if (self.cmd_handler.key_is_in_dict(key) and self.event.source.type == "group") or (key.isalnum() and key.lower() == "bothelp"):
             self.line_bot_api.reply_message_with_http_info(
             ReplyMessageRequest(
                 reply_token=self.event.reply_token,
