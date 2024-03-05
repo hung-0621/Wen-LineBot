@@ -35,9 +35,15 @@ class CMD_HANDLER:
 
     def send_image(self, url):
         image_message = ImageSendMessage(
-        original_content_url=url,
-        preview_image_url=url
-)
+            original_content_url=url,
+            preview_image_url=url
+        )
+        self.line_bot_api.reply_message_with_http_info(
+            ReplyMessageRequest(
+                reply_token=self.event.reply_token,
+                messages=[image_message]
+            )
+        )
 
     def send_message(self, msg):
         self.line_bot_api.reply_message_with_http_info(
@@ -49,7 +55,7 @@ class CMD_HANDLER:
         )
 
     cmd_dict: dict[str:callable] = {
-        
+
     }
 
     def key_is_in_dict(self, key) -> bool:
@@ -86,7 +92,6 @@ class CMD_HANDLER:
         self.cmd_dict["padoru"] = lambda: self.send_message(
             "hasi re so ri yo\nkaze no you ni\ntsuki mi hara wo\nPADORU！PADORU！")
         self.cmd_dict["喝水水"] = lambda: self.drink_water()
-
 
         help_msg = """
 這是本機器人操作指令說明
