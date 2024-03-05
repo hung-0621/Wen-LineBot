@@ -24,6 +24,7 @@ import requests
 from typing import Callable, Dict
 import random
 
+
 class CMD_HANDLER:
 
     event: MessageEvent
@@ -35,22 +36,14 @@ class CMD_HANDLER:
         response = requests.get(self.RANDOM_SENTENCE_URL)
         return response.text
 
-    # def send_image(self, url):
-    #     print(f"Should send image {url}")
-    #     self.line_bot_api.reply_message(
-    #         self.event.reply_token,
-    #         ImageSendMessage(original_content_url=url)
-    #     )
-
     def send_image(self, url):
         self.line_bot_api.reply_message_with_http_info(
             ReplyMessageRequest(
                 reply_token=self.event.reply_token,
-                messages=[ImageMessage(originalContentUrl=url,previewImageUrl=url)]
+                messages=[ImageMessage(
+                    originalContentUrl=url, previewImageUrl=url)]
             )
         )
-
-
 
     def send_message(self, msg):
         self.line_bot_api.reply_message_with_http_info(
@@ -61,9 +54,17 @@ class CMD_HANDLER:
             )
         )
 
-    # cmd_dict: dict[str:callable] = {
+    def send_image_with_msg(self, url, msg):
+        image_message = ImageMessage(
+            originalContentUrl=url, previewImageUrl=url)
+        text_message = TextMessage(text=msg)
 
-    # }
+        self.line_bot_api.reply_message_with_http_info(
+            ReplyMessageRequest(
+                reply_token=self.event.reply_token,
+                messages=[image_message, text_message]
+            )
+        )
 
     cmd_dict: Dict[str, Callable[[], None]] = {}
 
@@ -76,10 +77,6 @@ class CMD_HANDLER:
             return value  # Don't execute the function here
         return value
 
-    def drink_water(self):
-        self.send_image(
-            "https://raw.githubusercontent.com/Wen-Line-Bot/Wen-LineBot/main/images/drink_water.jpg")
-        self.send_message("水量++")
 
     def __init__(self, event, line_bot_api):
         self.event = event
@@ -101,8 +98,8 @@ class CMD_HANDLER:
         self.cmd_dict["padoru"] = lambda: self.send_message(
             "hasi re so ri yo\nkaze no you ni\ntsuki mi hara wo\nPADORU！PADORU！")
         self.cmd_dict["張子儀不會"] = lambda: self.send_message(
-            "張子儀不會，可是"+random.choice(["李多慧","茶湯會","獅子會","紅十字會","光明會"]))
-        self.cmd_dict["喝水水"] = lambda: self.drink_water()
+            "張子儀不會，可是"+random.choice(["李多慧", "茶湯會", "獅子會", "紅十字會", "光明會"]))
+        self.cmd_dict["喝水水"] = lambda: self.send_image_with_msg(url="https://raw.githubusercontent.com/Wen-Line-Bot/Wen-LineBot/main/images/drink_water.jpg",msg="水量++")
 
         help_msg = """
 這是本機器人操作指令說明
