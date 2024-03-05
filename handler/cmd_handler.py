@@ -20,7 +20,14 @@ from linebot.v3.webhooks import (
 
 class CMD_HANDLER:
 
-    help_msg = ""
+    help_msg = """
+這是本機器人操作指令說明
+--------------------
+可用指令：
+bot help
+嗨張子儀
+我覺得你說的對
+"""
 
     cmd_dict: dict = {
         "嗨張子儀": "嗨張子儀，今天的張子儀也很張子儀，今天義大利麵也要記得拌42號混凝土ㄛ",
@@ -34,16 +41,8 @@ class CMD_HANDLER:
     def get_dict_value(self,key) -> any:
         return self.cmd_dict[key]
     
-    def get_help_msg(self) -> str:
-        msg = f"""
-這是本機器人操作指令說明
---------------------
-可用指令：
-"""+"\n".join([k for k in self.cmd_dict.keys()])
-        return msg
-
     def __init__(self):
-        self.help_msg = self.get_help_msg()
+        pass
 
     def handle(self):
         pass
