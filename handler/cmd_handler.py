@@ -41,7 +41,7 @@ class CMD_HANDLER:
             preview_image_url=url
         )
         # self.line_bot_api.reply_message(self.event.reply_token, [image_message])
-        self.line_bot_api.push_message(self.event.source.group_id, messages=image_message)
+        self.line_bot_api.push_message(self.event.source.group_id, messages=[image_message])
 
 
 
@@ -71,10 +71,9 @@ class CMD_HANDLER:
         return value
 
     def drink_water(self):
-        self.send_message("水量++")
         self.send_image(
             "https://raw.githubusercontent.com/Wen-Line-Bot/Wen-LineBot/main/images/drink_water.jpg")
-        # self.send_message("水量++")
+        self.send_message("水量++")
 
     def __init__(self, event, line_bot_api):
         self.event = event
