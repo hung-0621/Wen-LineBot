@@ -30,7 +30,7 @@ class CMD_HANDLER:
 這是本機器人操作指令說明
 --------------------
 可用指令：\n
-    """ + "\n".join([ f"- {k}" for k in cmd_dict.keys()])
+""" + "\n".join([ f"- {k}" for k in cmd_dict.keys()])
 
     cmd_dict["bot help"] = help_msg
 
