@@ -56,7 +56,7 @@ class CMD_HANDLER:
             )
         )
 
-    cmd_dict: dict[str:function] = {
+    cmd_dict: dict[str:callable] = {
         "bot help": None,
     }
 
