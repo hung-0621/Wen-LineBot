@@ -21,6 +21,7 @@ from linebot.v3.webhooks import (
 from linebot.models.send_messages import ImageSendMessage
 import requests
 from typing import Callable, Dict
+import random
 
 class CMD_HANDLER:
 
@@ -93,6 +94,8 @@ class CMD_HANDLER:
             "沒錯只有你，你是智慧的結晶，你是文明的瑰寶，你是人類的獨苗，你是上帝的遺珠，你是雨後的彩虹，你是夤夜的皎月，你是晨昏的彩霞，你是銀河的唯一，你是樹枝的芽杈，你是滄海的珊瑚，你是最後的希望，你是問題的正解，你是莫蒂的瑞克，你是法國的拿破崙，你是歷史的書寫者，你是人類的光明，你是電你是光你是唯一的神話")
         self.cmd_dict["padoru"] = lambda: self.send_message(
             "hasi re so ri yo\nkaze no you ni\ntsuki mi hara wo\nPADORU！PADORU！")
+        self.cmd_dict["張子儀不會"] = lambda: self.send_message(
+            "張子儀不會，可是"+random.choice(["李多慧","茶湯會","獅子會","紅十字會"]))
         self.cmd_dict["喝水水"] = lambda: self.drink_water()
 
         help_msg = """
