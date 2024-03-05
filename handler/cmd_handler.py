@@ -18,7 +18,8 @@ from linebot.v3.webhooks import (
     TextMessageContent
 )
 
-from linebot.models.send_messages import ImageSendMessage
+from linebot.models import ImageSendMessage
+# from linebot.models.send_messages import ImageSendMessage
 import requests
 from typing import Callable, Dict
 import random
