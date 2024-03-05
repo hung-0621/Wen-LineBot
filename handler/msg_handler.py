@@ -34,11 +34,12 @@ class MSG_HANDLER:
         self.cmd_handler = cmd_handler
 
     def cmd_handle(self):
-        if self.event.message.text in self.cmd_handler.CMD_DICT and self.event.source.type == "group":
+        key = self.event.message.text
+        if self.cmd_handler.key_is_in_dict(key) and self.event.source.type == "group":
             self.line_bot_api.reply_message_with_http_info(
             ReplyMessageRequest(
                 reply_token=self.event.reply_token,
-                messages=[TextMessage(text=self.cmd_handler.CMD_DICT[self.event.message.text])]
+                messages=[TextMessage(text=self.cmd_handler.get_dict_value(key=key))]
             )
         )
 
@@ -46,7 +47,6 @@ class MSG_HANDLER:
         source_type = self.event.source.type
         if source_type == "group":
             group_id = self.event.source.group_id
-            # print(f"Group ID: {group_id}")
             user_id = self.event.source.user_id
             print(f"Group ID: {group_id} ; User ID: {user_id}")
         elif source_type == "user":
