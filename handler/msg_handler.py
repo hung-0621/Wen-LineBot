@@ -38,12 +38,13 @@ class MSG_HANDLER:
         if key.replace(" ", "").lower() == "bothelp":
             key = "bot help"
         if (self.cmd_handler.key_is_in_dict(key) and self.event.source.type == "group"):
-            self.line_bot_api.reply_message_with_http_info(
-            ReplyMessageRequest(
-                reply_token=self.event.reply_token,
-                messages=[TextMessage(text=self.cmd_handler.get_dict_value(key=key))]
-            )
-        )
+            self.cmd_handler.get_dict_value(key)()
+        #     self.line_bot_api.reply_message_with_http_info(
+        #     ReplyMessageRequest(
+        #         reply_token=self.event.reply_token,
+        #         messages=[TextMessage(text=self.cmd_handler.get_dict_value(key=key))]
+        #     )
+        # )
 
     def dump_handled_message(self):
         source_type = self.event.source.type
