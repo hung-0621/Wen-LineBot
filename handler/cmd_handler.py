@@ -36,11 +36,11 @@ class CMD_HANDLER:
 
     def send_image(self, url):
         image_message = ImageMessage(
-        original_content_url=url,
-        preview_image_url=url
-    )
-        self.line_bot_api.reply_message(self.event.reply_token, image_message)
-
+            original_content_url=url,
+            preview_image_url=url
+        )
+        self.line_bot_api.reply_message(
+            self.event.reply_token, [image_message])
 
     def send_message(self, msg):
         self.line_bot_api.reply_message_with_http_info(
