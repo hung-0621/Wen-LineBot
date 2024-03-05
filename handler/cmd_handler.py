@@ -70,7 +70,7 @@ class CMD_HANDLER:
 
     def drink_water(self):
         self.send_image(
-            "https://raw.githubusercontent.com/Wen-Line-Bot/Wen-LineBot/main/images/drink_water.png")
+            "https://raw.githubusercontent.com/Wen-Line-Bot/Wen-LineBot/main/images/drink_water.jpg")
         self.send_message("水量++")
 
     def __init__(self, event, line_bot_api):
