@@ -25,6 +25,7 @@ from linebot.v3.webhooks import (
 
 from handler.msg_handler import MSG_HANDLER
 from handler.cmd_handler import CMD_HANDLER
+from handler.event_handler import EVENT_HANDLER
 from handler.scheduled_msg_handler import SCHEDULED_HANDLER
 from LineHelper import LineHelper
 
@@ -62,7 +63,8 @@ def handle_message(event):
         line_bot_api = MessagingApi(api_client)
     line_helper = LineHelper(line_bot_api,event)
     cmd_handler = CMD_HANDLER(event=event,line_bot_api=line_bot_api,line_helper=line_helper)
-    msg_handler = MSG_HANDLER(event=event,configuration=configuration,line_bot_api=line_bot_api,cmd_handler=cmd_handler)
+    event_handler = EVENT_HANDLER(event=event,line_bot_api=line_bot_api,line_helper=line_helper,)
+    msg_handler = MSG_HANDLER(event=event,configuration=configuration,line_bot_api=line_bot_api,cmd_handler=cmd_handler,event_handler=event_handler)
     msg_handler.handle()
 
 with ApiClient(configuration) as api_client:

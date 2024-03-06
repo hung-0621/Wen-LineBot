@@ -19,36 +19,30 @@ from linebot.v3.webhooks import (
     TextMessageContent
 )
 
-# from linebot.models import ImageSendMessage
 import requests
 from typing import Callable, Dict
+from LineHelper import LineHelper
 import random
+import utils.my_func as my_func
 
 
 class EVENT_HANDLER:
 
     event: MessageEvent
     line_bot_api: MessagingApi
+    line_helper: LineHelper
+    event_list: list
 
-    cmd_dict: Dict[str, Callable[[], None]] = {}
-
-    def key_is_in_dict(self, key) -> bool:
-        return key in self.cmd_dict
-
-    def get_dict_value(self, key) -> any:
-        value = self.cmd_dict[key]
-        if callable(value):
-            return value  # Don't execute the function here
-        return value
-
-
-    def __init__(self, event, line_bot_api):
+    def __init__(self, event, line_bot_api, line_helper):
         self.event = event
         self.line_bot_api = line_bot_api
+        self.line_helper = line_helper
+        self.event_list = [self.wo_can_yuan]
 
-        
+    def wo_can_yuan(self):
+        if my_func.contains_yuan_pronunciation(self.event.message.text):
+            self.line_helper.send_message("沃草 原！")
 
     def handle(self):
-        pass
-
-
+        for event in self.event_list:
+            event()

@@ -18,6 +18,8 @@ from linebot.v3.webhooks import (
 )
 
 from handler.cmd_handler import CMD_HANDLER
+from handler.event_handler import EVENT_HANDLER
+
 
 class MSG_HANDLER:
 
@@ -26,12 +28,14 @@ class MSG_HANDLER:
     configuration: Configuration
     
     cmd_handler:CMD_HANDLER
+    event_handler:EVENT_HANDLER
 
-    def __init__(self, event, line_bot_api,configuration,cmd_handler):
+    def __init__(self, event, line_bot_api,configuration,cmd_handler,event_handler):
         self.event = event
         self.line_bot_api = line_bot_api
         self.configuration = configuration
         self.cmd_handler = cmd_handler
+        self.event_handler = event_handler
 
     def cmd_handle(self):
         key = self.event.message.text
@@ -43,6 +47,9 @@ class MSG_HANDLER:
                 func()
             else:
                 print(f"No command found for key: {key}")
+
+    def event_handle(self):
+        self.event_handler.handle()
 
     def dump_handled_message(self):
         source_type = self.event.source.type
@@ -61,6 +68,6 @@ class MSG_HANDLER:
         print()
 
     def handle(self):
-        func_handlers:list[function] = [self.dump_handled_message, self.cmd_handle]
+        func_handlers:list[function] = [self.dump_handled_message, self.cmd_handle,self.event_handle]
         for func in func_handlers:
             func()
