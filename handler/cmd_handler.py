@@ -101,7 +101,8 @@ class CMD_HANDLER:
             "張子儀不會，可是"+random.choice(["李多慧", "茶湯會", "獅子會", "紅十字會", "光明會"]))
         self.cmd_dict["喝水水"] = lambda: self.send_image_with_msg(url="https://raw.githubusercontent.com/Wen-Line-Bot/Wen-LineBot/main/images/drink_water.jpg",msg="水量++")
         self.cmd_dict["躺著喝水水"] = lambda: self.send_image_with_msg(url="https://raw.githubusercontent.com/Wen-Line-Bot/Wen-LineBot/main/images/drink_water_flip.jpg",msg="水量++\n(流速 Max)")
-
+        self.cmd_dict["親情牌"] = lambda: self.send_message(
+            "我趕你馬")
         help_msg = """
 這是本機器人操作指令說明
 --------------------
