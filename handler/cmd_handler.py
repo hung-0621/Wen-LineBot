@@ -103,6 +103,7 @@ class CMD_HANDLER:
         self.cmd_dict["躺著喝水水"] = lambda: self.send_image_with_msg(url="https://raw.githubusercontent.com/Wen-Line-Bot/Wen-LineBot/main/images/drink_water_flip.jpg",msg="水量++\n(流速 Max)")
         self.cmd_dict["親情牌"] = lambda: self.send_message(
             "我趕你馬")
+        self.cmd_dict["啟動"] = lambda: self.send_image_with_msg(url="https://media.9game.cn/gamebase/ieu-gdc-pre-process/images/20231012/7/23/a46362917681efe17e936cd468be76fc.jpg",msg="原神啟動")
         help_msg = """
 這是本機器人操作指令說明
 --------------------
