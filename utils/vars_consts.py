@@ -1,0 +1,1 @@
+RANDOM_SENTENCE_URL = "https://api.vvhan.com/api/ian"

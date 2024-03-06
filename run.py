@@ -26,6 +26,8 @@ from linebot.v3.webhooks import (
 from handler.msg_handler import MSG_HANDLER
 from handler.cmd_handler import CMD_HANDLER
 from handler.scheduled_msg_handler import SCHEDULED_HANDLER
+from LineHelper import LineHelper
+
 
 app = Flask(__name__)
 
@@ -58,7 +60,8 @@ def callback():
 def handle_message(event):
     with ApiClient(configuration) as api_client:
         line_bot_api = MessagingApi(api_client)
-    cmd_handler = CMD_HANDLER(event=event,line_bot_api=line_bot_api)
+    line_helper = LineHelper(line_bot_api,event)
+    cmd_handler = CMD_HANDLER(event=event,line_bot_api=line_bot_api,line_helper=line_helper)
     msg_handler = MSG_HANDLER(event=event,configuration=configuration,line_bot_api=line_bot_api,cmd_handler=cmd_handler)
     msg_handler.handle()
 
