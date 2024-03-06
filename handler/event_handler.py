@@ -40,7 +40,7 @@ class EVENT_HANDLER:
         self.event_list = [self.wo_can_yuan]
 
     def wo_can_yuan(self):
-        if my_func.contains_yuan_pronunciation(self.event.message.text):
+        if my_func.contains_second_tone_yuan(self.event.message.text):
             self.line_helper.send_message("沃草 原！")
 
     def handle(self):
