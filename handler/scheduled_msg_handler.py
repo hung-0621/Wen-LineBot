@@ -63,7 +63,7 @@ class SCHEDULED_HANDLER:
                 to=group_id, messages=[message])
             self.line_bot_api.push_message(push_message_request)
 
-    def make_bot_keep_awake():
+    def make_bot_keep_awake(self):
         print("== Make bot keep awake ==")
 
     # Add schedules here
