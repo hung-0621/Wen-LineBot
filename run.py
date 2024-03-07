@@ -57,21 +57,22 @@ def callback():
     return 'OK'
 
 
-@handler.add(MessageEvent, message=TextMessageContent)
-def handle_message(event):
-    with ApiClient(configuration) as api_client:
-        line_bot_api = MessagingApi(api_client)
-    line_helper = LineHelper(line_bot_api,event)
-    cmd_handler = CMD_HANDLER(event=event,line_bot_api=line_bot_api,line_helper=line_helper)
-    event_handler = EVENT_HANDLER(event=event,line_bot_api=line_bot_api,line_helper=line_helper,)
-    msg_handler = MSG_HANDLER(event=event,configuration=configuration,line_bot_api=line_bot_api,cmd_handler=cmd_handler,event_handler=event_handler)
-    msg_handler.handle()
-
 with ApiClient(configuration) as api_client:
     line_bot_api = MessagingApi(api_client)
-    scheduled_msg_handler = SCHEDULED_HANDLER(configuration=configuration,line_bot_api=line_bot_api)
+scheduled_msg_handler = SCHEDULED_HANDLER(
+    configuration=configuration, line_bot_api=line_bot_api)
 
 
+@handler.add(MessageEvent, message=TextMessageContent)
+def handle_message(event):
+    line_helper = LineHelper(line_bot_api, event)
+    cmd_handler = CMD_HANDLER(
+        event=event, line_bot_api=line_bot_api, line_helper=line_helper)
+    event_handler = EVENT_HANDLER(
+        event=event, line_bot_api=line_bot_api, line_helper=line_helper,)
+    msg_handler = MSG_HANDLER(event=event, configuration=configuration,
+                              line_bot_api=line_bot_api, cmd_handler=cmd_handler, event_handler=event_handler)
+    msg_handler.handle()
 
 
 if __name__ == "__main__":
