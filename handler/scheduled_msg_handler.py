@@ -20,6 +20,8 @@ from linebot.v3.webhooks import (
     MessageEvent,
     TextMessageContent
 )
+import os
+import requests
 
 
 class SCHEDULED_HANDLER:
@@ -64,6 +66,8 @@ class SCHEDULED_HANDLER:
             self.line_bot_api.push_message(push_message_request)
 
     def make_bot_keep_awake(self):
+        print("== Make bot keep awake ==")
+        requests.get(os.getenv('API_URL', None))
         print("== Make bot keep awake ==")
 
     # Add schedules here
