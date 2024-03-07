@@ -68,7 +68,6 @@ class SCHEDULED_HANDLER:
     def make_bot_keep_awake(self):
         print("== Make bot keep awake ==")
         requests.get(os.getenv('API_URL', None))
-        print("== Make bot keep awake ==")
 
     # Add schedules here
 
