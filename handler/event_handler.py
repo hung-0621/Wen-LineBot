@@ -37,17 +37,22 @@ class EVENT_HANDLER:
         self.event = event
         self.line_bot_api = line_bot_api
         self.line_helper = line_helper
-        self.event_list = [self.wo_can_yuan,self.feng_bin]
+        self.event_list = [self.wo_can_yuan, self.feng_bin]
 
-    def wo_can_yuan(self):
+    def wo_can_yuan(self) -> TextMessage:
         if my_func.contains_pinyin("yuán", self.event.message.text):
-            self.line_helper.send_message("沃草 原！")
+            return TextMessage(text="沃草 原！")
 
-    def feng_bin(self):
+    def feng_bin(self) -> ImageMessage:
         if my_func.contains_pinyin("fēng bīn", self.event.message.text):
-            self.line_helper.send_image(
-                f"https://raw.githubusercontent.com/Wen-Line-Bot/Wen-LineBot/main/images/feng_bin/feng_bin_{random.randint(0,9)}.jpg")
+            url = f"https://raw.githubusercontent.com/Wen-Line-Bot/Wen-LineBot/main/images/feng_bin/feng_bin_{random.randint(0,9)}.jpg"
+            return ImageMessage(
+                originalContentUrl=url, previewImageUrl=url)
 
     def handle(self):
+        message_list = []
         for event in self.event_list:
-            event()
+            e = event()
+            if e != None:
+                message_list.append(e)
+        self.line_helper.send_complex_message(message_list)

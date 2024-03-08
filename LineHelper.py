@@ -18,6 +18,7 @@ from linebot.v3.webhooks import (
     MessageEvent,
     TextMessageContent
 )
+import utils.my_func as my_func
 
 
 class LineHelper:
@@ -51,5 +52,13 @@ class LineHelper:
             ReplyMessageRequest(
                 reply_token=self.event.reply_token,
                 messages=[image_message, text_message]
+            )
+        )
+
+    def send_complex_message(self, message_list: list):
+        self.line_bot_api.reply_message_with_http_info(
+            ReplyMessageRequest(
+                reply_token=self.event.reply_token,
+                messages=message_list
             )
         )
