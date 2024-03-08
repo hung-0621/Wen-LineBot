@@ -37,11 +37,16 @@ class EVENT_HANDLER:
         self.event = event
         self.line_bot_api = line_bot_api
         self.line_helper = line_helper
-        self.event_list = [self.wo_can_yuan]
+        self.event_list = [self.wo_can_yuan,self.feng_bin]
 
     def wo_can_yuan(self):
-        if my_func.contains_second_tone_yuan(self.event.message.text):
+        if my_func.contains_pinyin("yuán", self.event.message.text):
             self.line_helper.send_message("沃草 原！")
+
+    def feng_bin(self):
+        if my_func.contains_pinyin("fēng bīn", self.event.message.text):
+            self.line_helper.send_image(
+                f"https://raw.githubusercontent.com/Wen-Line-Bot/Wen-LineBot/main/images/feng_bin/feng_bin_{random.randint(0,9)}.jpg")
 
     def handle(self):
         for event in self.event_list:
