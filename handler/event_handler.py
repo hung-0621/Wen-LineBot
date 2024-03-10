@@ -55,4 +55,5 @@ class EVENT_HANDLER:
             e = event()
             if e != None:
                 message_list.append(e)
-        self.line_helper.send_complex_message(message_list)
+        if message_list != []:
+            self.line_helper.send_complex_message(message_list)
