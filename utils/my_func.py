@@ -1,6 +1,8 @@
 import requests
 from pypinyin import lazy_pinyin, pinyin, Style
 import re
+import json
+import utils.vars_consts as vars_consts
 
 
 def get_response_text_from_url(url) -> str:
@@ -14,3 +16,9 @@ def contains_pinyin(target_pinyin, text):
     print(text_pinyin)
     # 使用正則表達式匹配目標詞的拼音
     return bool(re.search(target_pinyin, text_pinyin))
+
+
+def get_one_rand_cat_image_url() -> str:
+    parsed_data = json.loads(
+        get_response_text_from_url(vars_consts.RANDOM_CAT_URL))
+    return parsed_data[0]['url']
