@@ -51,13 +51,8 @@ class EVENT_HANDLER:
 
     def hao_hu(self) -> list:
         if my_func.contains_pinyin("hǎo hú", self.event.message.text):
-            url_list_1 = my_func.get_image_url_list_by_search(
-                "Fubuki Shirakami")
-            url_list_2 = my_func.get_image_url_list_by_search("白上吹雪")
-            url_list_3 = my_func.get_image_url_list_by_search("白上 フブキ")
-            url_list = url_list_1+url_list_2+url_list_3
-            url = random.choice(url_list)
-            print(f"好狐 url : {url}")
+            url = my_func.get_image_url_by_search(
+                search_query=["白上吹雪", "白上 フブキ", "Fubuki Shirakami"])
             return [ImageMessage(
                 originalContentUrl=url, previewImageUrl=url), TextMessage(text="好狐")]
 

@@ -6,6 +6,7 @@ import json
 import utils.vars_consts as vars_consts
 from bing_image_urls import bing_image_urls
 
+
 def get_response_text_from_url(url) -> str:
     response = requests.get(url=url)
     return response.text
@@ -25,12 +26,15 @@ def get_one_rand_cat_image_url() -> str:
     return parsed_data[0]['url']
 
 
-def get_image_url_list_by_search(search_query: str) -> list:
+def get_image_url_by_search(search_query: list[str]) -> str:
+    urls_list = []
     try:
-        urls = bing_image_urls(search_query, limit=20)
-        # Choose a random image URL
-        # random_image_url = random.choice(urls)
-        # print(urls)
-        return urls
+        for sq in search_query:
+            urls = bing_image_urls(sq, limit=20)
+            urls_list.extend(urls)
+        urls_set = set(urls_list)
+        url = random.choice(urls_set)
+        print(f"{url} , selected in {len(urls_set)} urls")
+        return url
     except Exception as e:
         return str(e)
