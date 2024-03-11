@@ -49,11 +49,20 @@ class EVENT_HANDLER:
             return ImageMessage(
                 originalContentUrl=url, previewImageUrl=url)
 
+    def hao_hu(self) -> list:
+        if my_func.contains_pinyin("hǎo hú", self.event.message.text):
+            url = my_func.get_image_url_by_search("Fubuki Shirakami")
+            return [ImageMessage(
+                originalContentUrl=url, previewImageUrl=url), TextMessage(text="好狐")]
+
     def handle(self):
         message_list = []
         for event in self.event_list:
             e = event()
             if e != None:
-                message_list.append(e)
+                if isinstance(e, list):
+                    message_list.extend(e)
+                else:
+                    message_list.append(e)
         if message_list != []:
             self.line_helper.send_complex_message(message_list)
