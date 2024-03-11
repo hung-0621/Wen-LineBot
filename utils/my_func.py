@@ -25,13 +25,12 @@ def get_one_rand_cat_image_url() -> str:
     return parsed_data[0]['url']
 
 
-def get_image_url_by_search(search_query: str) -> str:
+def get_image_url_list_by_search(search_query: str) -> list:
     try:
-        urls = bing_image_urls(search_query, limit=10)
+        urls = bing_image_urls(search_query, limit=20)
         # Choose a random image URL
-        random_image_url = random.choice(urls)
+        # random_image_url = random.choice(urls)
         # print(urls)
-        print(random_image_url)
-        return random_image_url
+        return urls
     except Exception as e:
         return str(e)
