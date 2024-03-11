@@ -5,7 +5,7 @@ import re
 import json
 import utils.vars_consts as vars_consts
 from bs4 import BeautifulSoup
-
+from bing_images import bing
 
 def get_response_text_from_url(url) -> str:
     response = requests.get(url=url)
@@ -28,26 +28,10 @@ def get_one_rand_cat_image_url() -> str:
 
 def get_image_url_by_search(search_query: str) -> str:
     try:
-        # Define the URL of the search engine (e.g., Google Images)
-        search_url = f"https://www.google.com/search?q={search_query}&tbm=isch"
-
-        # Send an HTTP request to the search URL
-        response = requests.get(search_url)
-
-        # Parse the HTML content using BeautifulSoup
-        soup = BeautifulSoup(response.content, "html.parser")
-
-        # Find all image tags
-        img_tags = soup.find_all("img")
-
-        # Extract image URLs
-        image_urls = [img["src"] for img in img_tags if "src" in img.attrs]
-
-        # Filter out non-image URLs (e.g., icons)
-        image_urls = [url for url in image_urls if url.startswith("http")]
-
+        urls = bing.fetch_image_urls(search_query, limit=10, file_type='png')
         # Choose a random image URL
-        random_image_url = random.choice(image_urls)
+        random_image_url = random.choice(urls)
+        # print(urls)
         print(random_image_url)
         return random_image_url
     except Exception as e:
