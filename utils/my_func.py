@@ -33,7 +33,7 @@ def get_image_url_by_search(search_query: list[str]) -> str:
             urls = bing_image_urls(sq, limit=20)
             urls_list.extend(urls)
         urls_set = set(urls_list)
-        url = random.choice(urls_set)
+        url = random.choice(list(urls_set))
         print(f"{url} , selected in {len(urls_set)} urls")
         return url
     except Exception as e:
