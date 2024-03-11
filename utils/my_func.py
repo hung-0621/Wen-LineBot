@@ -4,7 +4,6 @@ from pypinyin import lazy_pinyin, pinyin, Style
 import re
 import json
 import utils.vars_consts as vars_consts
-from bs4 import BeautifulSoup
 from bing_images import bing
 
 def get_response_text_from_url(url) -> str:
