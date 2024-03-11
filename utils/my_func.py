@@ -48,6 +48,7 @@ def get_image_url_by_search(search_query: str) -> str:
 
         # Choose a random image URL
         random_image_url = random.choice(image_urls)
+        print(random_image_url)
         return random_image_url
     except Exception as e:
         return str(e)
