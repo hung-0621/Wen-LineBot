@@ -4,7 +4,7 @@ from pypinyin import lazy_pinyin, pinyin, Style
 import re
 import json
 import utils.vars_consts as vars_consts
-from bing_images import bing
+from bing_image_urls import bing_image_urls
 
 def get_response_text_from_url(url) -> str:
     response = requests.get(url=url)
@@ -27,7 +27,7 @@ def get_one_rand_cat_image_url() -> str:
 
 def get_image_url_by_search(search_query: str) -> str:
     try:
-        urls = bing.fetch_image_urls(search_query, limit=10, file_type='png')
+        urls = bing_image_urls(search_query, limit=10)
         # Choose a random image URL
         random_image_url = random.choice(urls)
         # print(urls)

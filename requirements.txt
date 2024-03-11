@@ -12,4 +12,4 @@ line-bot-sdk
 pytz
 apscheduler
 pypinyin
-bing-images
+bing-image-urls
