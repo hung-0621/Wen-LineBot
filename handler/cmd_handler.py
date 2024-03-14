@@ -26,6 +26,7 @@ import utils.my_func as my_func
 import utils.vars_consts as vars_consts
 from LineHelper import LineHelper
 import random
+from handler.CZY_cannot import CZY
 
 
 class CMD_HANDLER:
@@ -44,21 +45,6 @@ class CMD_HANDLER:
         if callable(value):
             return value  # Don't execute the function here
         return value
-    def CZY_cannot_but():
-        can_not_but_dict = {
-        "香":"林襄",
-        "害怕":"Linkin park",
-        "被罵":"伊隆罵",
-        "die":"一代一代一代",
-        "沙啞":"三上悠亞",
-        "發出噪音":"加藤鷹",
-        "平安":"凌薹安",
-        "跳舞":"陳威伍",
-        "被打":"啊里不打",
-        "做蛋達":"謝新達",
-        }
-        random_value = random.choice(list(can_not_but_dict.keys()))
-        return f"張子儀不會{random_value} 但是{can_not_but_dict[random_value]}"
 
     def __init__(self, event, line_bot_api, line_helper):
         self.event = event
@@ -81,7 +67,7 @@ class CMD_HANDLER:
         self.cmd_dict["padoru"] = lambda: self.line_helper.send_message(
             "hasi re so ri yo\nkaze no you ni\ntsuki mi hara wo\nPADORU！PADORU！")
         self.cmd_dict["張子儀不會"] = lambda: self.line_helper.send_message(
-            random.choice(["張子儀不會，可是" + random.choice(["李多慧", "茶湯會", "獅子會", "紅十字會", "光明會", "安室奈美惠"]),CMD_HANDLER.CZY_cannot_but()]))
+            random.choice(["張子儀不會，可是" + random.choice(["李多慧", "茶湯會", "獅子會", "紅十字會", "光明會", "安室奈美惠"]),CZY.cannot_but()]))
         self.cmd_dict["喝水水"] = lambda: self.line_helper.send_image_with_msg(
             url="https://raw.githubusercontent.com/Wen-Line-Bot/Wen-LineBot/main/images/drink_water.jpg", msg="水量++")
         self.cmd_dict["躺著喝水水"] = lambda: self.line_helper.send_image_with_msg(
