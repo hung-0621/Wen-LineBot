@@ -73,14 +73,17 @@ class EVENT_HANDLER:
         else:
             return TextMessage(text="Sorry, I couldn't generate a response at the moment.")
 
-    def handle(self):
+    async def handle(self):
         message_list = []
         for event in self.event_list:
-            e = event()
-            if e != None:
+            if asyncio.iscoroutinefunction(event):
+                e = await event()
+            else:
+                e = event()
+            if e is not None:
                 if isinstance(e, list):
                     message_list.extend(e)
                 else:
                     message_list.append(e)
-        if message_list != []:
+        if message_list:
             self.line_helper.send_complex_message(message_list)
