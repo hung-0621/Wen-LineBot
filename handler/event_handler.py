@@ -64,6 +64,7 @@ class EVENT_HANDLER:
         msg = self.event.message.text
         if msg.startswith(pattern):
             msg = msg.replace(pattern, '', 1)
+            print("Getting gemini response ...")
             response = chat_ai.get_ai_response(message=msg)
             print(response)
             return TextMessage(text=response)
