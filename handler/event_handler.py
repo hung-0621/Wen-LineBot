@@ -59,56 +59,25 @@ class EVENT_HANDLER:
             return [ImageMessage(
                 originalContentUrl=url, previewImageUrl=url), TextMessage(text="好狐")]
 
-    # def chat_with_ai(self) -> TextMessage:
-    #     pattern = "誒機器人"
-    #     msg = self.event.message.text
-    #     if msg.startswith(pattern):
-    #         msg = msg.replace(pattern, '', 1)
-    #         response = chat_ai.get_gpt_35_api_response(messages=[msg])
-    #         cnt = chat_ai.read_open_api_usage_count()
-    #         response += f"\n\n<< API_USAGE_COUNT >>\n{cnt} times in this hour"
-    #         print(response)
-    #         return TextMessage(text=response)
-        
-    async def chat_with_ai(self) -> TextMessage:
+    def chat_with_ai(self) -> TextMessage:
         pattern = "誒機器人"
         msg = self.event.message.text
         if msg.startswith(pattern):
             msg = msg.replace(pattern, '', 1)
-            response = await chat_ai.get_gpt_35_api_response(messages=[msg])
+            response = chat_ai.get_gpt_35_api_response(messages=[msg])
             cnt = chat_ai.read_open_api_usage_count()
             response += f"\n\n<< API_USAGE_COUNT >>\n{cnt} times in this hour"
             print(response)
             return TextMessage(text=response)
 
-    # def handle(self):
-    #     message_list = []
-    #     for event in self.event_list:
-    #         e = event()
-    #         if e != None:
-    #             if isinstance(e, list):
-    #                 message_list.extend(e)
-    #             else:
-    #                 message_list.append(e)
-    #     if message_list != []:
-    #         self.line_helper.send_complex_message(message_list)
-
-    async def handle(self):
+    def handle(self):
         message_list = []
-        tasks = []
-
         for event in self.event_list:
-            tasks.append(event())
-
-        # Wait for all tasks to complete
-        responses = await asyncio.gather(*tasks)
-
-        for e in responses:
-            if e is not None:
+            e = event()
+            if e != None:
                 if isinstance(e, list):
                     message_list.extend(e)
                 else:
                     message_list.append(e)
-
-        if message_list:
+        if message_list != []:
             self.line_helper.send_complex_message(message_list)

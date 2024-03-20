@@ -29,7 +29,7 @@ def update_open_api_usage_count(count):
         json.dump({'OPEN_API_USAGE_COUNT': str(count)}, f)
 
 
-async def get_gpt_35_api_response(messages: list) -> str:
+def get_gpt_35_api_response(messages: list) -> str:
     usage_count = read_open_api_usage_count()
     if usage_count >= 60:
         return "api 已達小時次數限制"
@@ -37,7 +37,7 @@ async def get_gpt_35_api_response(messages: list) -> str:
     _messages = [{'role': 'system', 'content': '你是一個有趣幽默但不失智慧的聊天機器人'},]
     for msg in messages:
         _messages.append({'role': 'user', 'content': msg})
-    completion = await client.chat.completions.create(
+    completion = client.chat.completions.create(
         model="gpt-3.5-turbo", messages=_messages)
     response = completion.choices[0].message.content
     update_open_api_usage_count(usage_count + 1)
