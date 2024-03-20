@@ -1,3 +1,4 @@
+import asyncio
 from linebot.v3 import (
     WebhookHandler
 )
@@ -67,7 +68,10 @@ class MSG_HANDLER:
 
         print()
 
-    def handle(self):
-        func_handlers:list[function] = [self.dump_handled_message, self.cmd_handle,self.event_handle]
+    async def handle(self):
+        func_handlers = [self.dump_handled_message, self.cmd_handle, self.event_handle]
         for func in func_handlers:
-            func()
+            if asyncio.iscoroutinefunction(func):
+                await func()
+            else:
+                func()
