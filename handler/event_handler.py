@@ -66,8 +66,11 @@ class EVENT_HANDLER:
             msg = msg.replace(pattern, '', 1)
             print("Getting gemini response ...")
             response = chat_ai.get_ai_response(message=msg)
-            print(response)
+            print("Response from AI:", response)  # Debugging statement
+        if response:
             return TextMessage(text=response)
+        else:
+            return TextMessage(text="Sorry, I couldn't generate a response at the moment.")
 
     def handle(self):
         message_list = []
