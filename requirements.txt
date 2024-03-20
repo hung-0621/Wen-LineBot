@@ -13,4 +13,4 @@ pytz
 apscheduler
 pypinyin
 bing-image-urls
-openai
+google-generativeai
