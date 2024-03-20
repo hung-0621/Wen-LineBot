@@ -59,14 +59,14 @@ class EVENT_HANDLER:
             return [ImageMessage(
                 originalContentUrl=url, previewImageUrl=url), TextMessage(text="好狐")]
 
-    def chat_with_ai(self) -> TextMessage:
+    async def chat_with_ai(self) -> TextMessage:
         pattern = "誒機器人"
         msg = self.event.message.text
         response = None
         if msg.startswith(pattern):
             msg = msg.replace(pattern, '', 1)
             print("Getting gemini response ...")
-            response = chat_ai.get_ai_response(message=msg)
+            response = await chat_ai.get_ai_response(message=msg)
             print("Response from AI:", response)  # Debugging statement
         if response:
             return TextMessage(text=response)
