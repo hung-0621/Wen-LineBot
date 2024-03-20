@@ -64,6 +64,8 @@ class EVENT_HANDLER:
         if msg.startswith(pattern):
             msg = msg.replace(pattern, '', 1)
             response = chat_ai.get_gpt_35_api_response(messages=[msg])
+            cnt = chat_ai.read_open_api_usage_count()
+            response+=f"\n\n<< API_USAGE_COUNT >> :\n{cnt} times in this hour >>"
             return TextMessage(text=response)
 
     def handle(self):
