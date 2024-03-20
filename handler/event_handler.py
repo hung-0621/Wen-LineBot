@@ -39,8 +39,8 @@ class EVENT_HANDLER:
         self.event = event
         self.line_bot_api = line_bot_api
         self.line_helper = line_helper
-        self.event_list = [self.chat_with_ai, self.wo_can_yuan,
-                           self.feng_bin, self.hao_hu]
+        self.event_list = [self.wo_can_yuan,
+                           self.feng_bin, self.hao_hu,self.chat_with_ai]
 
     def wo_can_yuan(self) -> TextMessage:
         if my_func.contains_pinyin("yuán", self.event.message.text):
