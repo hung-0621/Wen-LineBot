@@ -69,26 +69,15 @@ class EVENT_HANDLER:
             response += f"\n\n<< API_USAGE_COUNT >>\n{cnt} times in this hour"
             return TextMessage(text=response)
 
-    # def handle(self):
-    #     message_list = []
-    #     for event in self.event_list:
-    #         e = asyncio.run(event()) if asyncio.iscoroutinefunction(
-    #             event) else event()
-    #         if e != None:
-    #             if isinstance(e, list):
-    #                 message_list.extend(e)
-    #             else:
-    #                 message_list.append(e)
-    #     if message_list != []:
-    #         self.line_helper.send_complex_message(message_list)
-
-    async def handle_event(self, event_func):
-        e = await event_func()
-        return e
-
-    async def handle(self):
-        tasks = [self.handle_event(event) for event in self.event_list]
-        results = await asyncio.gather(*tasks)
-        message_list = [msg for msg in results if msg is not None]
-        if message_list:
+    def handle(self):
+        message_list = []
+        for event in self.event_list:
+            e = asyncio.run(event()) if asyncio.iscoroutinefunction(
+                event) else event()
+            if e != None:
+                if isinstance(e, list):
+                    message_list.extend(e)
+                else:
+                    message_list.append(e)
+        if message_list != []:
             self.line_helper.send_complex_message(message_list)
