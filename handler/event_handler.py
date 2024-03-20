@@ -59,31 +59,28 @@ class EVENT_HANDLER:
             return [ImageMessage(
                 originalContentUrl=url, previewImageUrl=url), TextMessage(text="好狐")]
 
-    async def chat_with_ai(self) -> TextMessage:
+    def chat_with_ai(self) -> TextMessage:
         pattern = "誒機器人"
         msg = self.event.message.text
         response = None
         if msg.startswith(pattern):
             msg = msg.replace(pattern, '', 1)
             print("Getting gemini response ...")
-            response = await chat_ai.get_ai_response(message=msg)
+            response = chat_ai.get_ai_response(message=msg)
             print("Response from AI:", response)  # Debugging statement
         if response:
             return TextMessage(text=response)
         else:
             return TextMessage(text="Sorry, I couldn't generate a response at the moment.")
 
-    async def handle(self):
+    def handle(self):
         message_list = []
         for event in self.event_list:
-            if asyncio.iscoroutinefunction(event):
-                e = await event()
-            else:
-                e = event()
-            if e is not None:
+            e = event()
+            if e != None:
                 if isinstance(e, list):
                     message_list.extend(e)
                 else:
                     message_list.append(e)
-        if message_list:
+        if message_list != []:
             self.line_helper.send_complex_message(message_list)

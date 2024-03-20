@@ -64,7 +64,7 @@ scheduled_msg_handler = SCHEDULED_HANDLER(
 
 
 @handler.add(MessageEvent, message=TextMessageContent)
-async def handle_message(event):
+def handle_message(event):
     line_helper = LineHelper(line_bot_api, event)
     cmd_handler = CMD_HANDLER(
         event=event, line_bot_api=line_bot_api, line_helper=line_helper)
@@ -72,8 +72,7 @@ async def handle_message(event):
         event=event, line_bot_api=line_bot_api, line_helper=line_helper,)
     msg_handler = MSG_HANDLER(event=event, configuration=configuration,
                               line_bot_api=line_bot_api, cmd_handler=cmd_handler, event_handler=event_handler)
-    await msg_handler.handle()
-
+    msg_handler.handle()
 
 
 if __name__ == "__main__":
