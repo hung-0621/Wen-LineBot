@@ -13,6 +13,7 @@ def create_empty_json_file():
     if not os.path.exists('env.json'):
         with open('env.json', 'w') as f:
             json.dump({'OPEN_API_USAGE_COUNT': '0'}, f)
+        f.close()
 
 
 def read_open_api_usage_count() -> int:
@@ -20,6 +21,7 @@ def read_open_api_usage_count() -> int:
     with open('env.json', 'r') as f:
         data = json.load(f)
     cnt = int(data.get('OPEN_API_USAGE_COUNT', '0'))
+    f.close()
     print(f"OPENAI_API_USAGE_COUNT : {cnt} times in this hour")
     return cnt
 
@@ -27,6 +29,7 @@ def read_open_api_usage_count() -> int:
 def update_open_api_usage_count(count):
     with open('env.json', 'w') as f:
         json.dump({'OPEN_API_USAGE_COUNT': str(count)}, f)
+    f.close()
 
 
 def get_gpt_35_api_response(messages: list) -> str:
