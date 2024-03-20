@@ -35,9 +35,11 @@ def get_gpt_35_api_response(messages: list) -> str:
         return "api 已達小時次數限制"
 
     _messages = [{'role': 'system', 'content': '你是一個有趣幽默但不失智慧的聊天機器人'},]
-    _messages.extend(messages)
+    for msg in messages:
+        _messages.append({'role': 'user', 'content': msg})
     completion = client.chat.completions.create(
         model="gpt-3.5-turbo", messages=_messages)
     response = completion.choices[0].message.content
     update_open_api_usage_count(usage_count + 1)
     return response
+
