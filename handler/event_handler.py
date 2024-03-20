@@ -63,7 +63,7 @@ class EVENT_HANDLER:
         msg = self.event.message.text
         if msg.startswith(pattern):
             msg = msg.replace(pattern, '', 1)
-        response = chat_ai.get_gpt_35_api_response(messages=msg)
+        response = chat_ai.get_gpt_35_api_response(messages=[msg])
         return TextMessage(text=response)
 
     def handle(self):
