@@ -39,8 +39,8 @@ class EVENT_HANDLER:
         self.event = event
         self.line_bot_api = line_bot_api
         self.line_helper = line_helper
-        self.event_list = [self.wo_can_yuan,
-                           self.feng_bin, self.hao_hu, self.chat_with_ai]
+        self.event_list = [self.chat_with_ai, self.wo_can_yuan,
+                           self.feng_bin, self.hao_hu]
 
     def wo_can_yuan(self) -> TextMessage:
         if my_func.contains_pinyin("yuán", self.event.message.text):
@@ -66,13 +66,14 @@ class EVENT_HANDLER:
             msg = msg.replace(pattern, '', 1)
             response = chat_ai.get_gpt_35_api_response(messages=[msg])
             cnt = chat_ai.read_open_api_usage_count()
-            response+=f"\n\n<< API_USAGE_COUNT >>\n{cnt} times in this hour"
+            response += f"\n\n<< API_USAGE_COUNT >>\n{cnt} times in this hour"
             return TextMessage(text=response)
 
     def handle(self):
         message_list = []
         for event in self.event_list:
-            e = asyncio.run(event()) if asyncio.iscoroutinefunction(event) else event()
+            e = asyncio.run(event()) if asyncio.iscoroutinefunction(
+                event) else event()
             if e != None:
                 if isinstance(e, list):
                     message_list.extend(e)
