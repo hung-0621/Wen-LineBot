@@ -3,7 +3,7 @@ import json
 
 import google.generativeai as genai
 
-GOOGLE_API_KEY = os.getenv('CHANNEL_ACCESS_TOKEN', None)
+GOOGLE_API_KEY = os.getenv('GIMINI_API_KEY', None)
 
 def get_ai_response(message: str) -> str:
     model = genai.GenerativeModel('gemini-pro')
