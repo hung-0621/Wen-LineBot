@@ -15,7 +15,7 @@ def create_empty_json_file():
             json.dump({'OPEN_API_USAGE_COUNT': '0'}, f)
 
 
-def read_open_api_usage_count():
+def read_open_api_usage_count() -> int:
     create_empty_json_file()
     with open('env.json', 'r') as f:
         data = json.load(f)
