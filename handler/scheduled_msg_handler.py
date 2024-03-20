@@ -22,6 +22,7 @@ from linebot.v3.webhooks import (
 )
 import os
 import requests
+import utils.chat_ai as chat_ai
 
 
 class SCHEDULED_HANDLER:
@@ -74,6 +75,8 @@ class SCHEDULED_HANDLER:
     def set_schedule(self):
         self.scheduler.add_job(self.make_bot_keep_awake, 'interval',
                                minutes=14, timezone=timezone('Asia/Taipei'))
+        self.scheduler.add_job(lambda: chat_ai.update_open_api_usage_count(0), 'interval',
+                               hours=1, timezone=timezone('Asia/Taipei'))
         self.scheduler.add_job(self.send_hourly_message, 'cron', minute=0, second=0, timezone=timezone(
             'Asia/Taipei'), args=["Ca910ecfb8c7289e2c5fc51d58189d01c", "張子儀"])
         # self.scheduler.add_job(self.send_hourly_message, 'cron', second=0, timezone=timezone('Asia/Taipei'), args=["C7f44352f6748f82224d1c211175ae839", "張子儀"])

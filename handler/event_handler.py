@@ -24,6 +24,7 @@ from typing import Callable, Dict
 from LineHelper import LineHelper
 import random
 import utils.my_func as my_func
+import utils.chat_ai as chat_ai
 
 
 class EVENT_HANDLER:
@@ -37,7 +38,8 @@ class EVENT_HANDLER:
         self.event = event
         self.line_bot_api = line_bot_api
         self.line_helper = line_helper
-        self.event_list = [self.wo_can_yuan, self.feng_bin, self.hao_hu]
+        self.event_list = [self.wo_can_yuan,
+                           self.feng_bin, self.hao_hu, self.chat_with_ai]
 
     def wo_can_yuan(self) -> TextMessage:
         if my_func.contains_pinyin("yuán", self.event.message.text):
@@ -55,6 +57,14 @@ class EVENT_HANDLER:
                 search_query=["白上吹雪", "白上 フブキ", "Fubuki Shirakami"])
             return [ImageMessage(
                 originalContentUrl=url, previewImageUrl=url), TextMessage(text="好狐")]
+
+    def chat_with_ai(self) -> TextMessage:
+        pattern = "誒機器人"
+        msg = self.event.message.text
+        if msg.startswith(pattern):
+            msg = msg.replace(pattern, '', 1)
+        response = chat_ai.get_gpt_35_api_response(messages=msg)
+        return TextMessage(text=response)
 
     def handle(self):
         message_list = []
