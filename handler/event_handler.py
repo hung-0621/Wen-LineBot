@@ -20,6 +20,7 @@ from linebot.v3.webhooks import (
 )
 
 import requests
+import asyncio
 from typing import Callable, Dict
 from LineHelper import LineHelper
 import random
@@ -58,7 +59,7 @@ class EVENT_HANDLER:
             return [ImageMessage(
                 originalContentUrl=url, previewImageUrl=url), TextMessage(text="好狐")]
 
-    def chat_with_ai(self) -> TextMessage:
+    async def chat_with_ai(self) -> TextMessage:
         pattern = "誒機器人"
         msg = self.event.message.text
         if msg.startswith(pattern):
@@ -71,7 +72,7 @@ class EVENT_HANDLER:
     def handle(self):
         message_list = []
         for event in self.event_list:
-            e = event()
+            e = asyncio.run(event()) if asyncio.iscoroutinefunction(event) else event()
             if e != None:
                 if isinstance(e, list):
                     message_list.extend(e)
