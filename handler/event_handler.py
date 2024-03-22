@@ -61,10 +61,11 @@ class EVENT_HANDLER:
 
     def chat_with_ai(self) -> TextMessage:
         pattern = "誒機器人"
+        pattern2 = "欸機器人"
         msg = self.event.message.text
         response = None
-        if msg.startswith(pattern):
-            msg = msg.replace(pattern, '', 1)
+        if msg.startswith(pattern) or msg.startswith(pattern2):
+            msg = msg[4:]
             print(f"CHAT WITH AI : {msg}")
             print("Getting gemini response ...")
             response = chat_ai.get_ai_response(message=msg)
