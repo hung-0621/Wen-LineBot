@@ -22,6 +22,7 @@ from linebot.v3.webhooks import (
 )
 import os
 import requests
+import utils.chat_ai as chat_ai
 
 
 class SCHEDULED_HANDLER:
