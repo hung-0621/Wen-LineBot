@@ -66,7 +66,7 @@ class CMD_HANDLER:
         self.cmd_dict["padoru"] = lambda: self.line_helper.send_message(
             "hasi re so ri yo\nkaze no you ni\ntsuki mi hara wo\nPADORU！PADORU！")
         self.cmd_dict["張子儀不會"] = lambda: self.line_helper.send_message(
-            "張子儀不會，可是"+random.choice(["李多慧", "茶湯會", "獅子會", "紅十字會", "光明會", "安室奈美惠"]))
+            "張子儀不會，可是"+random.choice(["李多慧", "茶湯會", "獅子會", "紅十字會", "光明會", "安室奈美惠", "曹氏宗親會"]))
         self.cmd_dict["喝水水"] = lambda: self.line_helper.send_image_with_msg(
             url="https://raw.githubusercontent.com/Wen-Line-Bot/Wen-LineBot/main/images/drink_water.jpg", msg="水量++")
         self.cmd_dict["躺著喝水水"] = lambda: self.line_helper.send_image_with_msg(
