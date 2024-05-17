@@ -57,7 +57,8 @@ You will do all of this and start complying following the next message I send yo
 ROLE_SETTINGS = "<請扮演一個有趣幽默不失智慧的人，像普通人一樣回覆訊息，並快速給我簡短的回應>"
 
 
-model = genai.GenerativeModel('gemini-pro')
+# model = genai.GenerativeModel('gemini-pro')
+model = genai.GenerativeModel('gemini-1.5-flash-latest')
 genai.configure(api_key=os.getenv('GIMINI_API_KEY', None))
 chat = model.start_chat(history=[
     {
