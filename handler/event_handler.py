@@ -49,7 +49,7 @@ class EVENT_HANDLER:
         
     def wo_chao_ming(self) -> TextMessage:
         if my_func.contains_pinyin("míng", self.event.message.text):
-            return TextMessage(text="沃潮 鳴!")
+            return TextMessage(text="沃潮 鳴！")
 
     def feng_bin(self) -> ImageMessage:
         if my_func.contains_pinyin("fēng bīn", self.event.message.text):
