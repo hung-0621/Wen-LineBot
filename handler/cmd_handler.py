@@ -76,10 +76,12 @@ class CMD_HANDLER:
         self.cmd_dict["啟動"] = lambda: self.line_helper.send_image_with_msg(
             url="https://media.9game.cn/gamebase/ieu-gdc-pre-process/images/20231012/7/23/a46362917681efe17e936cd468be76fc.jpg", msg="原神啟動")
         self.cmd_dict["青椒"] = lambda: self.line_helper.send_image_with_msg(
-            url="https://raw.githubusercontent.com/Wen-Line-Bot/Wen-LineBot/main/images/green_pepper.png",msg="@周青椒")
+            url="https://raw.githubusercontent.com/Wen-Line-Bot/Wen-LineBot/main/images/green_pepper.png", msg="@周青椒")
         self.cmd_dict["兔子"] = lambda: self.line_helper.send_image(
             my_func.get_one_rand_cat_image_url())
-        
+        self.cmd_dict["這我婆"] = lambda: self.line_helper.send_image(
+            my_func.get_one_rand_waifu_image_url())
+
         help_msg = """
 這是本機器人操作指令說明
 --------------------

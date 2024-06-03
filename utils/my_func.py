@@ -12,6 +12,11 @@ def get_response_text_from_url(url) -> str:
     return response.text
 
 
+def get_response_text_from_url_params(url, params) -> str:
+    response = requests.get(url=url, params=params)
+    return response.text
+
+
 def contains_pinyin(target_pinyin, text):
     # 將句子轉換為拼音
     text_pinyin = ' '.join([i[0] for i in pinyin(text, style=Style.TONE)])
@@ -24,6 +29,12 @@ def get_one_rand_cat_image_url() -> str:
     parsed_data = json.loads(
         get_response_text_from_url(vars_consts.RANDOM_CAT_URL))
     return parsed_data[0]['url']
+
+
+def get_one_rand_waifu_image_url() -> str:
+    parsed_data = json.loads(
+        get_response_text_from_url(vars_consts.RANDOM_WAIFU_URL))
+    return parsed_data["images"][0]["url"]
 
 
 def get_image_url_by_search(search_query: list[str]) -> str:
