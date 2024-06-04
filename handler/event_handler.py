@@ -41,21 +41,29 @@ class EVENT_HANDLER:
         self.line_helper = line_helper
         self.event_list = [self.wo_can_yuan,
                            self.wo_chao_ming,
-                           self.feng_bin, self.hao_hu,self.chat_with_ai]
+                           self.feng_bin,
+                           self.hao_ke_lian_o,
+                           self.hao_hu,
+                           self.chat_with_ai]
 
     def wo_can_yuan(self) -> TextMessage:
         if my_func.contains_pinyin("yuán", self.event.message.text):
             return TextMessage(text="沃草 原！")
-        
+
     def wo_chao_ming(self) -> TextMessage:
         if my_func.contains_pinyin("míng", self.event.message.text):
             return TextMessage(text="沃潮 鳴！")
 
     def feng_bin(self) -> ImageMessage:
         if my_func.contains_pinyin("fēng bīn", self.event.message.text):
-            url = f"https://raw.githubusercontent.com/Wen-Line-Bot/Wen-LineBot/main/images/feng_bin/feng_bin_{random.randint(0,9)}.jpg"
+            url = f"https://raw.githubusercontent.com/Wen-Line-Bot/Wen-LineBot/main/images/feng_bin/feng_bin_{
+                random.randint(0, 9)}.jpg"
             return ImageMessage(
                 originalContentUrl=url, previewImageUrl=url)
+
+    def hao_ke_lian_o(self) -> TextMessage:
+        if my_func.contains_pinyin("hǎo kě lián ō", self.event.message.text):
+            return TextMessage(text="好可憐喔，陳威嗚嗚嗚嗚嗚😭")
 
     def hao_hu(self) -> list:
         if my_func.contains_pinyin("hǎo hú", self.event.message.text):
