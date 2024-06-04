@@ -56,8 +56,7 @@ class EVENT_HANDLER:
 
     def feng_bin(self) -> ImageMessage:
         if my_func.contains_pinyin("fēng bīn", self.event.message.text):
-            url = f"https://raw.githubusercontent.com/Wen-Line-Bot/Wen-LineBot/main/images/feng_bin/feng_bin_{
-                random.randint(0, 9)}.jpg"
+            url = f"https://raw.githubusercontent.com/Wen-Line-Bot/Wen-LineBot/main/images/feng_bin/feng_bin_{random.randint(0, 9)}.jpg"
             return ImageMessage(
                 originalContentUrl=url, previewImageUrl=url)
 
