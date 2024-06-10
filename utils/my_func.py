@@ -83,7 +83,7 @@ def get_one_rand_bluearchive_char_id() -> int:
 def get_bluearchive_char_detail_data(id:int) -> list:
     parsed_data = json.loads(
         get_response_text_from_url(f"{vars_consts.BLUE_ARCHIVE_BASE_API_URL}/character/{id}?id=true"))
-    print(parsed_data)
+    # print(parsed_data)
     name = parsed_data["character"]["name"].split()[0]
     age = parsed_data["info"]["age"]
     portrait = parsed_data["image"]["portrait"]
