@@ -60,10 +60,9 @@ class EVENT_HANDLER:
             id = my_func.get_one_rand_bluearchive_char_id()
             data = my_func.get_bluearchive_char_detail_data(id)
             url = data[2]
-            text_msg_1 = f"name : {data[0]}\nage : {data[1]}"
-            text_msg_2 = data[3]
+            text_msg_1 = f"name : {data[0]}\nage : {data[1]}\n{data[3]}"
             return [TextMessage(text="什麼檔案？藍色的嗎？"),ImageMessage(
-                originalContentUrl=url, previewImageUrl=url),TextMessage(text=text_msg_1),TextMessage(text=text_msg_2)]
+                originalContentUrl=url, previewImageUrl=url),TextMessage(text=text_msg_1)]
 
     def feng_bin(self) -> ImageMessage:
         if my_func.contains_pinyin("fēng bīn", self.event.message.text):
