@@ -41,6 +41,7 @@ class EVENT_HANDLER:
         self.line_helper = line_helper
         self.event_list = [self.wo_can_yuan,
                            self.wo_chao_ming,
+                           self.dang_an,
                            self.feng_bin,
                            self.hao_ke_lian_o,
                            self.hao_hu,
@@ -53,6 +54,11 @@ class EVENT_HANDLER:
     def wo_chao_ming(self) -> TextMessage:
         if my_func.contains_pinyin("míng", self.event.message.text):
             return TextMessage(text="沃潮 鳴！")
+
+    def dang_an(self) -> list:
+        if my_func.contains_pinyin("dàng àn", self.event.message.text):
+            url = my_func.get_one_rand_blue_archive_image_url
+            return [ImageMessage(originalContentUrl=url,previewImageUrl=url),TextMessage(text="什麼檔案？藍色的嗎？")]
 
     def feng_bin(self) -> ImageMessage:
         if my_func.contains_pinyin("fēng bīn", self.event.message.text):

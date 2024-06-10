@@ -37,6 +37,12 @@ def get_one_rand_waifu_image_url() -> str:
     return parsed_data["images"][0]["url"]
 
 
+def get_one_rand_blue_archive_image_url() -> str:
+    parsed_data = json.loads(
+        get_response_text_from_url(vars_consts.RANDOM_BLUE_ARCHIVE_CHAR_URL))
+    return parsed_data["data"][0]["photoUrl"]
+
+
 def get_image_url_by_search(search_query: list[str]) -> str:
     urls_list = []
     try:
