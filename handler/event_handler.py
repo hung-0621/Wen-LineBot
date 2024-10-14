@@ -41,6 +41,7 @@ class EVENT_HANDLER:
         self.line_helper = line_helper
         self.event_list = [self.wo_can_yuan,
                            self.wo_chao_ming,
+                           self.not_powen,
                            self.dang_an,
                            self.feng_bin,
                            self.hao_ke_lian_o,
@@ -54,6 +55,11 @@ class EVENT_HANDLER:
     def wo_chao_ming(self) -> TextMessage:
         if my_func.contains_pinyin("míng", self.event.message.text):
             return TextMessage(text="沃潮 鳴！")
+        
+    def not_powen(self) -> TextMessage:
+        if my_func.contains_pinyin("xiāo bó wén", self.event.message.text):
+            url = "https://raw.githubusercontent.com/Wen-Line-Bot/Wen-LineBot/main/images/not_powen.jpg"
+            return ImageMessage(originalContentUrl=url,previewImageUrl=url)
 
     def dang_an(self) -> list:
         if my_func.contains_pinyin("dàng àn", self.event.message.text):
