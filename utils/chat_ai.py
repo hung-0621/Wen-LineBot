@@ -58,7 +58,7 @@ ROLE_SETTINGS = "<請扮演一個有趣幽默不失智慧的人，像普通人�
 
 
 # model = genai.GenerativeModel('gemini-pro')
-model = genai.GenerativeModel('gemini-1.5-flash-latest')
+model = genai.GenerativeModel('gemini-1.5-flash')
 genai.configure(api_key=os.getenv('GIMINI_API_KEY', None))
 chat = model.start_chat(history=[
     {
