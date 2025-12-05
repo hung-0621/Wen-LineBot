@@ -32,6 +32,8 @@ class SCHEDULED_HANDLER:
         8: "八點了 ！！ 起來早八 ！！",
         12: "十二點了 ！！ 起來進食 ！！",
         15: "下午三點了 ！！ 起來喝下午”茶“ ！！",
+        16: "下午四點了 ！！ 起來打宿儺，你才是挑戰者 ！！",
+        20: "晚上八點了 ！！ 去簽博班 ！！"
     }
 
     scheduler = BackgroundScheduler()
@@ -75,8 +77,8 @@ class SCHEDULED_HANDLER:
     def set_schedule(self):
         self.scheduler.add_job(self.make_bot_keep_awake, 'interval',
                                minutes=14, timezone=timezone('Asia/Taipei'))
-        self.scheduler.add_job(self.send_hourly_message, 'cron', minute=0, second=0, timezone=timezone(
-            'Asia/Taipei'), args=["Ca910ecfb8c7289e2c5fc51d58189d01c", "張子儀"])
+        # self.scheduler.add_job(self.send_hourly_message, 'cron', minute=0, second=0, timezone=timezone(
+        #     'Asia/Taipei'), args=["Ca910ecfb8c7289e2c5fc51d58189d01c", "張子儀"])
         # self.scheduler.add_job(self.send_hourly_message, 'cron', second=0, timezone=timezone('Asia/Taipei'), args=["C7f44352f6748f82224d1c211175ae839", "張子儀"])
 
     def handle(self):

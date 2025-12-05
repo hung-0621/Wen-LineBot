@@ -1,5 +1,6 @@
 from datetime import datetime
 import os
+import utils.my_func as my_func
 from flask import Flask, request, abort
 from apscheduler.schedulers.background import BackgroundScheduler
 from pytz import timezone
@@ -35,6 +36,9 @@ app = Flask(__name__)
 configuration = Configuration(
     access_token=os.getenv('CHANNEL_ACCESS_TOKEN', None))
 handler = WebhookHandler(os.getenv('CHANNEL_SECRET', None))
+
+# init funcs
+my_func.init_bluearchive_chars_data()
 
 
 @app.route("/callback", methods=['POST'])

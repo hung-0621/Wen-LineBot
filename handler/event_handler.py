@@ -40,17 +40,45 @@ class EVENT_HANDLER:
         self.line_bot_api = line_bot_api
         self.line_helper = line_helper
         self.event_list = [self.wo_can_yuan,
-                           self.feng_bin, self.hao_hu,self.chat_with_ai]
+                           self.wo_chao_ming,
+                           self.not_powen,
+                           self.dang_an,
+                           self.feng_bin,
+                           self.hao_ke_lian_o,
+                           self.hao_hu,
+                           self.chat_with_ai]
 
     def wo_can_yuan(self) -> TextMessage:
         if my_func.contains_pinyin("yuán", self.event.message.text):
             return TextMessage(text="沃草 原！")
 
+    def wo_chao_ming(self) -> TextMessage:
+        if my_func.contains_pinyin("míng", self.event.message.text):
+            return TextMessage(text="沃潮 鳴！")
+        
+    def not_powen(self) -> TextMessage:
+        if my_func.contains_pinyin("xiāo bó wén", self.event.message.text):
+            url = "https://raw.githubusercontent.com/Wen-Line-Bot/Wen-LineBot/main/images/not_powen.jpg"
+            return ImageMessage(originalContentUrl=url,previewImageUrl=url)
+
+    def dang_an(self) -> list:
+        if my_func.contains_pinyin("dàng àn", self.event.message.text):
+            id = my_func.get_one_rand_bluearchive_char_id()
+            data = my_func.get_bluearchive_char_detail_data(id)
+            url = data[2]
+            text_msg_1 = f"name : {data[0]}\nage : {data[1]}\n{data[3]}"
+            return [TextMessage(text="什麼檔案？藍色的嗎？"),ImageMessage(
+                originalContentUrl=url, previewImageUrl=url),TextMessage(text=text_msg_1)]
+
     def feng_bin(self) -> ImageMessage:
         if my_func.contains_pinyin("fēng bīn", self.event.message.text):
-            url = f"https://raw.githubusercontent.com/Wen-Line-Bot/Wen-LineBot/main/images/feng_bin/feng_bin_{random.randint(0,9)}.jpg"
+            url = f"https://raw.githubusercontent.com/Wen-Line-Bot/Wen-LineBot/main/images/feng_bin/feng_bin_{random.randint(0, 9)}.jpg"
             return ImageMessage(
                 originalContentUrl=url, previewImageUrl=url)
+
+    def hao_ke_lian_o(self) -> TextMessage:
+        if my_func.contains_pinyin("hǎo kě lián ō", self.event.message.text):
+            return TextMessage(text="好可憐喔，陳威嗚嗚嗚嗚嗚😭")
 
     def hao_hu(self) -> list:
         if my_func.contains_pinyin("hǎo hú", self.event.message.text):
