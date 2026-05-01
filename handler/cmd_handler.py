@@ -13,7 +13,7 @@ from linebot.v3.webhooks import MessageEvent, TextMessageContent
 import random
 import utils.my_func as my_func
 import utils.vars_consts as vars_consts
-from typing import Dict
+from typing import Dict, Callable
 from LineHelper import LineHelper
 from enums.response_type import ResponseType 
 
@@ -71,33 +71,33 @@ class CMD_HANDLER:
         return key in self.cmd_dict
 
     def get_dict_value(self, key) -> any:
-        value = self.cmd_dict[key]
-        return value
+        cmd_type, func = self.cmd_dict[key]
+        result = func()
+        if cmd_type == ResponseType.IMAGE_MSG:
+            return (cmd_type, result[0], result[1])
+        else:
+            return (cmd_type, result)
 
     # 註冊指令
     def register_cmds(self):
         # 將所有文字指令加入字典
         for key, value in self.TEXT_CMD.items():
-            self.add_type_to_cmd(ResponseType.TEXT, key, value)
+            self.cmd_dict[key] = (ResponseType.TEXT, lambda v=value: v)
 
         # 將所有圖片指令加入字典
         for key, (image_url, message) in self.IMAGE_MSG_CMD.items():
-            self.add_type_to_cmd(ResponseType.IMAGE_MSG, key, (image_url, message))
+            self.cmd_dict[key] = (ResponseType.IMAGE_MSG, lambda u=image_url, m=message: (u, m))
 
-        self.add_type_to_cmd(ResponseType.TEXT, "欸張子儀", self.hey_zzy_helper())
-        self.add_type_to_cmd(ResponseType.TEXT, "張子儀不會", self.zzy_can_not_helper())
-        self.add_type_to_cmd(ResponseType.IMAGE, "兔子", self.rabbit_helper())
-        self.add_type_to_cmd(ResponseType.IMAGE, "這我婆", self.waifu_helper())
-        self.add_type_to_cmd(ResponseType.TEXT, "bot help", self.help_message_helper())
+        self.add_type_to_cmd(ResponseType.TEXT, "欸張子儀", self.hey_zzy_helper)
+        self.add_type_to_cmd(ResponseType.TEXT, "張子儀不會", self.zzy_can_not_helper)
+        self.add_type_to_cmd(ResponseType.IMAGE, "兔子", self.rabbit_helper)
+        self.add_type_to_cmd(ResponseType.IMAGE, "這我婆", self.waifu_helper)
+        self.add_type_to_cmd(ResponseType.TEXT, "bot help", self.help_message_helper)
 
     # 新增指令類型，以便回傳不同格式的訊息
-    def add_type_to_cmd(self, cmd_type: ResponseType , key, value):
-        if cmd_type == ResponseType.TEXT or cmd_type == ResponseType.IMAGE:
-            self.cmd_dict[key] = (cmd_type, value)
-        elif cmd_type == ResponseType.IMAGE_MSG:
-            image_url, message = value
-            self.cmd_dict[key] = (ResponseType.IMAGE_MSG, image_url, message)
-        
+    def add_type_to_cmd(self, cmd_type: ResponseType , key, func: Callable):
+        self.cmd_dict[key] = (cmd_type, func)
+                
     
     # 欸張子儀 + random sentence
     def hey_zzy_helper(self) -> str:
@@ -125,13 +125,20 @@ class CMD_HANDLER:
 
     # 兔子
     def rabbit_helper(self) -> str:
-        url = my_func.get_one_rand_cat_image_url()
-        return url
+        try:
+            url = my_func.get_one_rand_cat_image_url()
+            return url
+        except:
+            self.line_helper.send_message("抱歉，獲取貓貓圖片失敗！")
+            
 
     # 這我婆
     def waifu_helper(self) -> str:
-        url = my_func.get_one_rand_waifu_image_url()
-        return url
+        try:
+            url = my_func.get_one_rand_waifu_image_url()
+            return url
+        except:
+            self.line_helper.send_message("抱歉，獲取你老婆圖片失敗！")
 
     # bot help
     def help_message_helper(self) -> str:

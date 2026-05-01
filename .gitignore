@@ -3,5 +3,5 @@
 venv/
 .venv
 json
-.env.*
 .env
+logs/

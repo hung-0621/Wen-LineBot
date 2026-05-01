@@ -6,6 +6,7 @@ import re
 import json
 import utils.vars_consts as vars_consts
 from bing_image_urls import bing_image_urls
+from flask import current_app as app
 
 
 def get_response_text_from_url(url) -> str:
@@ -27,17 +28,20 @@ def contains_pinyin(target_pinyin, text):
 
 
 def get_one_rand_cat_image_url() -> str:
-    parsed_data = json.loads(get_response_text_from_url(vars_consts.RANDOM_CAT_URL))
-    return parsed_data[0]["url"]
-
+    try:
+        parsed_data = json.loads(get_response_text_from_url(vars_consts.RANDOM_CAT_URL))
+        return parsed_data[0]["url"]
+    except Exception as e:
+        app.logger.error(f"Error occurred while fetching cat image URL: {e}")
+        raise
 
 def get_one_rand_waifu_image_url() -> str:
     try:
         parsed_data = json.loads(get_response_text_from_url(vars_consts.RANDOM_WAIFU_URL))
         return parsed_data["items"][0]["url"]
     except Exception as e:
-        print(f"Error occurred while fetching waifu image URL: {e}")
-        return ""
+        app.logger.error(f"Error occurred while fetching waifu image URL: {e}")
+        raise
 
 
 def get_image_url_by_search(search_query: list[str]) -> str:
@@ -48,7 +52,7 @@ def get_image_url_by_search(search_query: list[str]) -> str:
             urls_list.extend(urls)
         urls_set = set(urls_list)
         url = random.choice(list(urls_set))
-        print(f"{url} , selected in {len(urls_set)} urls")
+        app.logger.info(f"{url} , selected in {len(urls_set)} urls")
         return url
     except Exception as e:
         return str(e)

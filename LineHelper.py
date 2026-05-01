@@ -19,6 +19,7 @@ from linebot.v3.webhooks import (
     TextMessageContent
 )
 import utils.my_func as my_func
+from flask import current_app as app
 
 
 class LineHelper:
@@ -27,38 +28,50 @@ class LineHelper:
         self.event = event
 
     def send_image(self, url: str):
-        self.line_bot_api.reply_message_with_http_info(
-            ReplyMessageRequest(
-                reply_token=self.event.reply_token,
-                messages=[ImageMessage(
-                    originalContentUrl=url, previewImageUrl=url)]
+        try:
+            self.line_bot_api.reply_message_with_http_info(
+                ReplyMessageRequest(
+                    reply_token=self.event.reply_token,
+                    messages=[ImageMessage(
+                        originalContentUrl=url, previewImageUrl=url)]
+                )
             )
-        )
+        except Exception as e:
+            app.logger.error(f"Error in send_image: {e}")
 
     def send_message(self, msg: str):
-        self.line_bot_api.reply_message_with_http_info(
-            ReplyMessageRequest(
-                reply_token=self.event.reply_token,
-                messages=[TextMessage(text=msg)]
+        try:
+            self.line_bot_api.reply_message_with_http_info(
+                ReplyMessageRequest(
+                    reply_token=self.event.reply_token,
+                    messages=[TextMessage(text=msg)]
+                )
             )
-        )
+        except Exception as e:
+            app.logger.error(f"Error in send_message: {e}")
 
     def send_image_with_msg(self, url: str, msg: str):
-        image_message = ImageMessage(
-            originalContentUrl=url, previewImageUrl=url)
-        text_message = TextMessage(text=msg)
+        try:
+            image_message = ImageMessage(
+                originalContentUrl=url, previewImageUrl=url)
+            text_message = TextMessage(text=msg)
 
-        self.line_bot_api.reply_message_with_http_info(
-            ReplyMessageRequest(
-                reply_token=self.event.reply_token,
-                messages=[image_message, text_message]
+            self.line_bot_api.reply_message_with_http_info(
+                ReplyMessageRequest(
+                    reply_token=self.event.reply_token,
+                    messages=[image_message, text_message]
+                )
             )
-        )
+        except Exception as e:
+            app.logger.error(f"Error in send_image_with_msg: {e}")
 
     def send_complex_message(self, message_list: list):
-        self.line_bot_api.reply_message_with_http_info(
-            ReplyMessageRequest(
-                reply_token=self.event.reply_token,
-                messages=message_list
+        try:
+            self.line_bot_api.reply_message_with_http_info(
+                ReplyMessageRequest(
+                    reply_token=self.event.reply_token,
+                    messages=message_list
+                )
             )
-        )
+        except Exception as e:
+            app.logger.error(f"Error in send_complex_message: {e}")

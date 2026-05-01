@@ -1,55 +1,47 @@
-from datetime import datetime
 import os
-import utils.my_func as my_func
+from pytz import timezone
+from datetime import datetime
+from dotenv import load_dotenv
 from flask import Flask, request, abort
 from apscheduler.schedulers.background import BackgroundScheduler
-from pytz import timezone
-from dotenv import load_dotenv
 
-from linebot.v3 import (
-    WebhookHandler
-)
-from linebot.v3.exceptions import (
-    InvalidSignatureError
-)
+from linebot.v3 import WebhookHandler
+from linebot.v3.exceptions import InvalidSignatureError
 from linebot.v3.messaging import (
     Configuration,
     ApiClient,
     MessagingApi,
     ReplyMessageRequest,
     TextMessage,
-    PushMessageRequest
+    PushMessageRequest,
 )
-from linebot.v3.webhooks import (
-    MessageEvent,
-    TextMessageContent
-)
+from linebot.v3.webhooks import MessageEvent, TextMessageContent
 
+import utils.my_func as my_func
 from handler.msg_handler import MSG_HANDLER
 from handler.cmd_handler import CMD_HANDLER
 from handler.event_handler import EVENT_HANDLER
 from handler.scheduled_msg_handler import SCHEDULED_HANDLER
 from LineHelper import LineHelper
+from configs.logConfig import dictConfig
 
 load_dotenv(override=True)
 
 app = Flask(__name__)
 
-configuration = Configuration(
-    access_token=os.getenv('CHANNEL_ACCESS_TOKEN', None)
-)
+configuration = Configuration(access_token=os.getenv("CHANNEL_ACCESS_TOKEN", None))
 
-handler = WebhookHandler(os.getenv('CHANNEL_SECRET', None))
+handler = WebhookHandler(os.getenv("CHANNEL_SECRET", None))
 
 # init funcs
 my_func.init_bluearchive_chars_data()
 
 
-@app.route("/callback", methods=['POST'])
+@app.route("/callback", methods=["POST"])
 def callback():
-    
+
     # get X-Line-Signature header value
-    signature = request.headers['X-Line-Signature']
+    signature = request.headers["X-Line-Signature"]
 
     # get request body as text
     body = request.get_data(as_text=True)
@@ -60,28 +52,43 @@ def callback():
         handler.handle(body, signature)
     except InvalidSignatureError:
         app.logger.info(
-            "Invalid signature. Please check your channel access token/channel secret.")
+            "Invalid signature. Please check your channel access token/channel secret."
+        )
         abort(400)
 
-    return 'OK'
+    return "OK"
 
 
 with ApiClient(configuration) as api_client:
     line_bot_api = MessagingApi(api_client)
 scheduled_msg_handler = SCHEDULED_HANDLER(
-    configuration=configuration, line_bot_api=line_bot_api)
+    configuration=configuration, line_bot_api=line_bot_api
+)
 
 
 @handler.add(MessageEvent, message=TextMessageContent)
 def handle_message(event):
-    line_helper = LineHelper(line_bot_api, event)
-    cmd_handler = CMD_HANDLER(
-        event=event, line_bot_api=line_bot_api, line_helper=line_helper)
-    event_handler = EVENT_HANDLER(
-        event=event, line_bot_api=line_bot_api, line_helper=line_helper,)
-    msg_handler = MSG_HANDLER(event=event, configuration=configuration,
-                              line_bot_api=line_bot_api, cmd_handler=cmd_handler, event_handler=event_handler, line_helper=line_helper)
-    msg_handler.handle()
+    try:
+        line_helper = LineHelper(line_bot_api, event)
+        cmd_handler = CMD_HANDLER(
+            event=event, line_bot_api=line_bot_api, line_helper=line_helper
+        )
+        event_handler = EVENT_HANDLER(
+            event=event,
+            line_bot_api=line_bot_api,
+            line_helper=line_helper,
+        )
+        msg_handler = MSG_HANDLER(
+            event=event,
+            configuration=configuration,
+            line_bot_api=line_bot_api,
+            cmd_handler=cmd_handler,
+            event_handler=event_handler,
+            line_helper=line_helper,
+        )
+        msg_handler.handle()
+    except Exception as e:
+        app.logger.error(f"Error in handle_message: {e}")
 
 
 if __name__ == "__main__":
@@ -89,4 +96,4 @@ if __name__ == "__main__":
         app.run()
     except (KeyboardInterrupt, SystemExit) as e:
         # scheduler.shutdown()
-        print(e)
+        app.logger.info(f"Application stopped: {e}")
