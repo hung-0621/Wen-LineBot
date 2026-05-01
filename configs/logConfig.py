@@ -23,8 +23,8 @@ dictConfig({
         },
         'file': {
             'class': 'logging.handlers.RotatingFileHandler',
-            #'filename': log_filename,
-            'filename': os.path.join(LOG_DIR, 'app.log'),
+            'filename': log_filename,
+            # 'filename': os.path.join(LOG_DIR, 'app.log'),
             'maxBytes': 1024 * 1024 * 5,  # 5 MB
             'formatter': 'default',
             'encoding': 'utf8'
