@@ -1,8 +1,10 @@
 import os
 
-RANDOM_SENTENCE_URL = "https://api.vvhan.com/api/ian/rand"
+# 掛了
+# RANDOM_SENTENCE_URL = "https://api.vvhan.com/api/ian/rand"
+RANDOM_SENTENCE_URL = "https://v1.hitokoto.cn/?c=f&c=e&c=d&c=k&encode=text"
 RANDOM_CAT_URL = "https://api.thecatapi.com/v1/images/search"
-RANDOM_WAIFU_URL = "https://api.waifu.im/search"
+RANDOM_WAIFU_URL = "https://api.waifu.im/images?IncludedTags=waifu"
 RANDOM_BLUE_ARCHIVE_CHARS_URL = "https://api.ennead.cc/buruaka/character"
 BLUE_ARCHIVE_BASE_API_URL = "https://api.ennead.cc/buruaka"
 

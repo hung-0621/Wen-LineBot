@@ -4,6 +4,7 @@ import utils.my_func as my_func
 from flask import Flask, request, abort
 from apscheduler.schedulers.background import BackgroundScheduler
 from pytz import timezone
+from dotenv import load_dotenv
 
 from linebot.v3 import (
     WebhookHandler
@@ -30,11 +31,14 @@ from handler.event_handler import EVENT_HANDLER
 from handler.scheduled_msg_handler import SCHEDULED_HANDLER
 from LineHelper import LineHelper
 
+load_dotenv(override=True)
 
 app = Flask(__name__)
 
 configuration = Configuration(
-    access_token=os.getenv('CHANNEL_ACCESS_TOKEN', None))
+    access_token=os.getenv('CHANNEL_ACCESS_TOKEN', None)
+)
+
 handler = WebhookHandler(os.getenv('CHANNEL_SECRET', None))
 
 # init funcs
@@ -43,6 +47,7 @@ my_func.init_bluearchive_chars_data()
 
 @app.route("/callback", methods=['POST'])
 def callback():
+    
     # get X-Line-Signature header value
     signature = request.headers['X-Line-Signature']
 
@@ -75,7 +80,7 @@ def handle_message(event):
     event_handler = EVENT_HANDLER(
         event=event, line_bot_api=line_bot_api, line_helper=line_helper,)
     msg_handler = MSG_HANDLER(event=event, configuration=configuration,
-                              line_bot_api=line_bot_api, cmd_handler=cmd_handler, event_handler=event_handler)
+                              line_bot_api=line_bot_api, cmd_handler=cmd_handler, event_handler=event_handler, line_helper=line_helper)
     msg_handler.handle()
 
 

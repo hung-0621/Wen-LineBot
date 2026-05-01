@@ -16,9 +16,11 @@ from linebot.v3.webhooks import (
     MessageEvent,
     TextMessageContent
 )
+from enums.response_type import ResponseType
 
 from handler.cmd_handler import CMD_HANDLER
 from handler.event_handler import EVENT_HANDLER
+from LineHelper import LineHelper
 
 
 class MSG_HANDLER:
@@ -29,24 +31,41 @@ class MSG_HANDLER:
     
     cmd_handler:CMD_HANDLER
     event_handler:EVENT_HANDLER
+    
+    line_helper: LineHelper
 
-    def __init__(self, event, line_bot_api,configuration,cmd_handler,event_handler):
+    def __init__(self, event, line_bot_api,configuration,cmd_handler,event_handler,line_helper):
         self.event = event
         self.line_bot_api = line_bot_api
         self.configuration = configuration
         self.cmd_handler = cmd_handler
         self.event_handler = event_handler
+        self.line_helper = line_helper
 
     def cmd_handle(self):
         key = self.event.message.text
         if key.replace(" ", "").lower() == "bothelp":
             key = "bot help"
-        if (self.cmd_handler.key_is_in_dict(key) and self.event.source.type == "group"):
-            func = self.cmd_handler.get_dict_value(key)
-            if func is not None:
-                func()
+            
+        if (self.cmd_handler.key_is_in_dict(key)): # and self.event.source.type == "group"):
+            response_message: tuple = self.cmd_handler.get_dict_value(key)
+            if response_message:
+                self.send_message(response_message)
             else:
-                print(f"No command found for key: {key}")
+                print(f"No command found for key: {key}") 
+    
+    # 調用 line_helper 回傳訊息
+    # messgae -> (type, message) or (type, image_url) or (type, image_url, message)
+    def send_message(self, message: tuple):
+        if message[0] == ResponseType.TEXT:
+            print("text message")
+            self.line_helper.send_message(message[1])
+        elif message[0] == ResponseType.IMAGE:
+            print("image message")
+            self.line_helper.send_image(message[1])
+        elif message[0] == ResponseType.IMAGE_MSG:
+            print("image with message")
+            self.line_helper.send_image_with_msg(message[1], message[2])
 
     def event_handle(self):
         self.event_handler.handle()
